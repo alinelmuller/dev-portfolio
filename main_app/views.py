@@ -19,18 +19,28 @@ def portfolio_index(request):
 
 def create_portfolio(request):
     if request.method == 'POST':
-        portfolio_form = PortfolioForm(request.POST, request.FILES)
-        skills_form = SkillsForm(request.POST)
-        if portfolio_form.is_valid() and skills_form.is_valid():
-            portfolio = portfolio_form.save()
-            skill = skills_form.save(commit=False)
-            skill.portfolio = portfolio
-            skill.save()
-            return redirect('portfolio_list')  
-    else:
-        portfolio_form = PortfolioForm()
-        skills_form = SkillsForm()
-    return render(request, 'cms/index.html', {'form': portfolio_form, 'skills_form': skills_form})
+        user = User.objects.get(id=request.POST['user_id'])
+        name = request.POST['name']  
+        role = request.POST['role']
+        linkedin_link = request.POST['linkedin_link']
+        me_picture = request.FILES['me_picture']
+        accent_color = request.POST['accent_color']
+        home_picture = request.FILES['home_picture']
+        personal_quotes = request.POST['personal_quotes']
+
+        portfolio = Portfolio(
+            user_id=user,
+            name=name,  
+            role=role,
+            linkedin_link=linkedin_link,
+            me_picture=me_picture,
+            accent_color=accent_color,
+            home_picture=home_picture,
+            personal_quotes=personal_quotes
+        )
+        portfolio.save()
+
+    return render(request, 'cms/index.html')
 
 def user_list(request):
     users = User.objects.all()

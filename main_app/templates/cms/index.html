@@ -7,8 +7,22 @@
     <h1>Create Portfolio</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
+        <input type="hidden" name="user_id" value="{{ request.user.id }}">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" value="Name">
+        <label for="role">Role:</label>
+        <input type="text" name="role" id="role" value="Role">
+        <label for="linkedin_link">LinkedIn Link:</label>
+        <input type="url" name="linkedin_link" id="linkedin_link" value="Linkedin Link">
+        <label for="me_picture">Me Picture:</label>
+        <input type="file" name="me_picture" id="me_picture">
+        <label for="accent_color">Accent Color:</label>
+        <input type="text" name="accent_color" id="accent_color" value="Choose a color as a hexadecimal value">
+        <label for="home_picture">Home Picture:</label>
+        <input type="file" name="home_picture" id="home_picture">
+        <label for="personal_quotes">Personal Quotes:</label>
+        <input type="text" name="personal_quotes" id="personal_quotes" value="Here you will have a quote">
+        <button type="submit">Create Portfolio</button>
     </form>
 
     <!-- <h1>Add Skills</h1>
