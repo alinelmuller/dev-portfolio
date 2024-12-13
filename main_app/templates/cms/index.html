@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Portfolio Form</title>
+</head>
+<body>
+    <h1>Create Portfolio</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+
+    <h1>Add Skills</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ skills_form.as_p }}
+        <button type="submit">Add Skill</button>
+    </form>
+</body>
+</html>
