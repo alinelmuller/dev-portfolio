@@ -2,9 +2,19 @@
 <html>
 <head>
     <title>Portfolio Form</title>
+    <script>
+        function enableEditing() {
+            var inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(function(input) {
+                input.disabled = false;
+            });
+            document.getElementById('edit-button').style.display = 'none';
+            document.getElementById('save-button').style.display = 'inline';
+        }
+    </script>
 </head>
 <body>
-    <h1>Create Portfolio</h1>
+    <h1>{% if portfolio %}Edit{% else %}Create{% endif %} Portfolio</h1>
     {% if success_message %}
         <p style="color: green;">{{ success_message }}</p>
     {% endif %}
@@ -12,20 +22,21 @@
         {% csrf_token %}
         <input type="hidden" name="user_id" value="{{ request.user.id }}">
         <label for="name">Name:</label>
-        <input type="text" name="name" id="name" value="{{ name|default_if_none:'Name' }}">
+        <input type="text" name="name" id="name" value="{{ portfolio.name|default_if_none:'' }}" disabled></br>
         <label for="role">Role:</label>
-        <input type="text" name="role" id="role" value="{{ role|default_if_none:'Role' }}">
+        <input type="text" name="role" id="role" value="{{ portfolio.role|default_if_none:'' }}" disabled></br>
         <label for="linkedin_link">LinkedIn Link:</label>
-        <input type="url" name="linkedin_link" id="linkedin_link" value="{{ linkedin_link|default_if_none:'Linkedin Link' }}">
+        <input type="url" name="linkedin_link" id="linkedin_link" value="{{ portfolio.linkedin_link|default_if_none:'' }}" disabled></br>
         <label for="me_picture">Me Picture:</label>
-        <input type="file" name="me_picture" id="me_picture">
+        <input type="file" name="me_picture" id="me_picture" disabled></br>
         <label for="accent_color">Accent Color:</label>
-        <input type="text" name="accent_color" id="accent_color" value="{{ accent_color|default_if_none:'#000000' }}">
+        <input type="text" name="accent_color" id="accent_color" value="{{ portfolio.accent_color|default_if_none:'#000000' }}" disabled></br>
         <label for="home_picture">Home Picture:</label>
-        <input type="file" name="home_picture" id="home_picture">
+        <input type="file" name="home_picture" id="home_picture" disabled></br>
         <label for="personal_quotes">Personal Quotes:</label>
-        <input type="text" name="personal_quotes" id="personal_quotes" value="{{ personal_quotes|default_if_none:'Here you will have a quote' }}">
-        <button type="submit">Create Portfolio</button>
+        <input type="text" name="personal_quotes" id="personal_quotes" value="{{ portfolio.personal_quotes|default_if_none:'' }}" disabled></br>
+        <button type="button" id="edit-button" onclick="enableEditing()">Edit</button>
+        <button type="submit" id="save-button" style="display:none;">Save</button>
     </form>
 
     <h2>View Your Portfolio</h2>
