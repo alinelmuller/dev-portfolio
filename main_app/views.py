@@ -6,21 +6,14 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Portfolio, Skills, User
 from .forms import PortfolioForm, SkillsForm, UserForm
 
-# Define the home view function
+
 def home(request):
-    # Send a simple HTML response
     return HttpResponse('<h1>Hello ᓚᘏᗢ</h1>')
 
-# Define the about view function
 def about(request):
     return render(request, 'about.html')
 
-
-#---------------------------------------------------------------#
-
-
 def portfolio_index(request):
-    # Render the portfolios/index.html template with the portfolios data
     portfolios = Portfolio.objects.all()
     return render(request, 'portfolios/index.html', {'portfolios': portfolios})
 
@@ -33,7 +26,7 @@ def create_portfolio(request):
             skill = skills_form.save(commit=False)
             skill.portfolio = portfolio
             skill.save()
-            return redirect('portfolio_list')  # Change 'portfolio_list' to your desired redirect URL
+            return redirect('portfolio_list')  
     else:
         portfolio_form = PortfolioForm()
         skills_form = SkillsForm()
@@ -72,7 +65,7 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('create_portfolio')  
     else:
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
@@ -80,5 +73,3 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('home')
-
-#---------------------------------------------------------------#
