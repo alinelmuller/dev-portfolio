@@ -8,7 +8,7 @@ from .forms import PortfolioForm, SkillsForm, UserForm
 
 
 def home(request):
-    return HttpResponse('<h1>Hello ᓚᘏᗢ</h1>')
+    return HttpResponse('<h1>Welcome</h1>')
 
 def about(request):
     return render(request, 'about.html')
