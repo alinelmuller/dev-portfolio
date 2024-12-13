@@ -56,6 +56,17 @@ def view_portfolio(request, portfolio_id):
     portfolio = get_object_or_404(Portfolio, id=portfolio_id)
     return render(request, 'users/me.html', {'portfolio': portfolio})
 
+def edit_portfolio(request, portfolio_id):
+    portfolio = get_object_or_404(Portfolio, id=portfolio_id)
+    if request.method == 'POST':
+        form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
+        if form.is_valid():
+            form.save()
+            return redirect('view_portfolio', portfolio_id=portfolio.id)
+    else:
+        form = PortfolioForm(instance=portfolio)
+    return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
+
 def user_list(request):
     users = User.objects.all()
     return render(request, 'users/index.html', {'users': users})
