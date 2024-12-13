@@ -67,6 +67,15 @@ def edit_portfolio(request, portfolio_id):
         form = PortfolioForm(instance=portfolio)
     return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
 
+def add_skill(request, portfolio_id):
+    portfolio = get_object_or_404(Portfolio, id=portfolio_id)
+    if request.method == 'POST':
+        skill_name = request.POST['skill_name']
+        skill_description = request.POST['skill_description']
+        skill = Skills(portfolio=portfolio, skill_name=skill_name, skill_description=skill_description)
+        skill.save()
+        return redirect('edit_portfolio', portfolio_id=portfolio.id)
+
 def user_list(request):
     users = User.objects.all()
     return render(request, 'users/index.html', {'users': users})

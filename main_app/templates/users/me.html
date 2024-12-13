@@ -52,8 +52,16 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="expertise">
         <h2>Expertises</h2>
+        <div class="cards">
+            {% for skill in portfolio.skills_set.all %}
+            <div class="card">
+                <h3>{{ skill.skill_name }}</h3>
+                <p>{{ skill.skill_description }}</p>
+            </div>
+            {% endfor %}
+        </div>
     </section>
 
     <section class="contact">

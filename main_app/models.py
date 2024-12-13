@@ -43,11 +43,3 @@ class Portable(models.Model):
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
 
-# Remove the custom User model if it exists
-# class User(models.Model):
-#     email = models.EmailField(unique=True)
-#     password = models.CharField(max_length=128)
-#     name = models.CharField(max_length=255)
-
-#     def __str__(self):
-#         return self.email

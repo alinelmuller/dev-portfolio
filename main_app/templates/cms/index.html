@@ -39,6 +39,29 @@
         <button type="submit" id="save-button" style="display:none;">Save</button>
     </form>
 
+    <h2>Skills</h2>
+    {% if portfolio %}
+        {% if portfolio.skills_set.count < 6 %}
+            <form method="post" enctype="multipart/form-data" action="{% url 'add_skill' portfolio.id %}">
+                {% csrf_token %}
+                <label for="skill_name">Skill Name:</label>
+                <input type="text" name="skill_name" id="skill_name" required></br>
+                <label for="skill_description">Skill Description:</label>
+                <textarea name="skill_description" id="skill_description" required></textarea></br>
+                <button type="submit">Add Skill</button>
+            </form>
+        {% else %}
+            <p>You can only add up to 6 skills.</p>
+        {% endif %}
+        <ul>
+            {% for skill in portfolio.skills_set.all %}
+                <li>{{ skill.skill_name }}: {{ skill.skill_description }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You do not have a portfolio yet.</p>
+    {% endif %}
+
     <h2>View Your Portfolio</h2>
     {% if portfolio %}
         <a href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a>
