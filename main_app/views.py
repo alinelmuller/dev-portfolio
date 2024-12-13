@@ -76,6 +76,12 @@ def add_skill(request, portfolio_id):
         skill.save()
         return redirect('edit_portfolio', portfolio_id=portfolio.id)
 
+def delete_skill(request, skill_id):
+    skill = get_object_or_404(Skills, id=skill_id)
+    portfolio_id = skill.portfolio.id
+    skill.delete()
+    return redirect('edit_portfolio', portfolio_id=portfolio_id)
+
 def user_list(request):
     users = User.objects.all()
     return render(request, 'users/index.html', {'users': users})

@@ -55,7 +55,13 @@
         {% endif %}
         <ul>
             {% for skill in portfolio.skills_set.all %}
-                <li>{{ skill.skill_name }}: {{ skill.skill_description }}</li>
+                <li>
+                    {{ skill.skill_name }}: {{ skill.skill_description }}
+                    <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
