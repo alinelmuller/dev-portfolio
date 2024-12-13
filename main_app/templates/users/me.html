@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+</head>
+<body>
+    <h1>{{ portfolio.name }}</h1>
+    <p>Role: {{ portfolio.role }}</p>
+    <p>LinkedIn: <a href="{{ portfolio.linkedin_link }}">{{ portfolio.linkedin_link }}</a></p>
+    <img src="{{ portfolio.me_picture.url }}" alt="Me Picture">
+    <p>Accent Color: {{ portfolio.accent_color }}</p>
+    <img src="{{ portfolio.home_picture.url }}" alt="Home Picture">
+    <p>Personal Quotes: {{ portfolio.personal_quotes }}</p>
+</body>
+</html>

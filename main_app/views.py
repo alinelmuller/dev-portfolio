@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -39,8 +39,22 @@ def create_portfolio(request):
             personal_quotes=personal_quotes
         )
         portfolio.save()
+        success_message = "Portfolio created successfully!"
+        return render(request, 'cms/index.html', {
+            'success_message': success_message,
+            'name': name,
+            'role': role,
+            'linkedin_link': linkedin_link,
+            'accent_color': accent_color,
+            'personal_quotes': personal_quotes,
+            'portfolio': portfolio
+        })
 
     return render(request, 'cms/index.html')
+
+def view_portfolio(request, portfolio_id):
+    portfolio = get_object_or_404(Portfolio, id=portfolio_id)
+    return render(request, 'users/me.html', {'portfolio': portfolio})
 
 def user_list(request):
     users = User.objects.all()
