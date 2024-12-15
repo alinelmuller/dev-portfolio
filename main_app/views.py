@@ -11,7 +11,7 @@ from .forms import PortfolioForm, SkillsForm, UserForm
 
 
 def home(request):
-    return HttpResponse('<h1>Welcome</h1>')
+    return render(request, 'about.html')
 
 def about(request):
     return render(request, 'about.html')

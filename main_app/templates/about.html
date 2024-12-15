@@ -1,9 +1,218 @@
-{% extends 'base.html' %} 
-{% block content %}
-<h1>About Portfolio Dev</h1>
-<hr />
-<p class="page-content">
-  I like long romantic walks down the produce aisle. Also, I am currently job
-  seeking!
-</p>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortfolioDev - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Header */
+header {
+    background: #1e1e2f;
+    color: #fff;
+    padding: 10px 0;
+}
+
+header .logo {
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff007a;
+}
+
+header nav ul {
+    list-style: none;
+    float: right;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #ff007a;
+}
+
+/* Hero Section */
+.hero {
+    background: #ff007a;
+    color: #fff;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    background: #fff;
+    color: #ff007a;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.cta-button:hover {
+    background: #e6e6e6;
+}
+
+/* Features Section */
+.features {
+    background: #fff;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.features h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.card {
+    background: #f3f3f3;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    text-align: center;
+}
+
+.card h4 {
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+/* Portfolio Showcase */
+.portfolio-showcase {
+    background: #f3f4f6;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.portfolio-showcase a {
+    text-decoration: none;
+    color: #ff007a;
+    font-size: 1.2em;
+}
+
+.portfolio-showcase a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    background: #1e1e2f;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+
+</style>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1 class="logo">PortfolioDev</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'register_user' %}">Create</a></li>
+                    <li><a href="{% url 'login_user' %}">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Build and Share Your Portfolio with Ease</h2>
+            <p>PortfolioDev is a modern tool to showcase your projects and skills with style.</p>
+            <a href="{% url 'register_user' %}" class="cta-button">Get Started for Free</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h3>Why Use PortfolioDev?</h3>
+            <div class="feature-cards">
+                <div class="card">
+                    <h4>Easy to Use</h4>
+                    <p>Create and share your portfolio in just a few clicks.</p>
+                </div>
+                <div class="card">
+                    <h4>Customizable</h4>
+                    <p>Personalize your portfolio to reflect your style and skills.</p>
+                </div>
+                <div class="card">
+                    <h4>Responsive Design</h4>
+                    <p>Your portfolio will look great on all devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Showcase -->
+    <section class="portfolio-showcase">
+        <div class="container">
+            <h3>Showcase Your Best Work</h3>
+            <p>Here is a link to your portfolio:</p>
+            <a href="#" class="portfolio-link">http://portfolio.dev/me/username</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 PortfolioDev. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
