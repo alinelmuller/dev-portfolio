@@ -161,96 +161,119 @@ footer {
 </style>
 <body>
     <div class="container">
-    <header>
-        <div class="container-header">
-            <h1>DevPortfolio</h1>
-            <div>
-                <a href="{% url 'logout' %}" class="action">Logout</a>
+        <header>
+            <div class="container-header">
+                <h1>DevPortfolio</h1>
+                <div>
+                    <a href="{% url 'logout' %}" class="action">Logout</a>
+                </div>
             </div>
-        </div>
-    </header>
-    <main>
-        <section class="portfolio-link">
-            <h2>Portfolio Link</h2>
-            {% if portfolio %}
-                <p><a href="{% url 'view_portfolio' portfolio.id %}">http://www.devportfolio/me/{{ portfolio.id }}</a></p>
-            {% else %}
-                <p>You do not have a portfolio yet.</p>
+        </header>
+        <main>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
             {% endif %}
-        </section>
-        <section class="section">
-            <h3>Design</h3>
-            <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
-                {% csrf_token %}
-                <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                <input type="text" name="accent_color" placeholder="Accent color" value="{% if portfolio %}{{ portfolio.accent_color }}{% endif %}" readonly>
-                <input type="file" name="home_picture" placeholder="Image for Home" disabled>
-                <div class="actions">
-                    <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
-                    <button type="submit" class="save" disabled>Save</button>
-                </div>
-            </form>
-        </section>
-        <section class="section">
-            <h3>About Me</h3>
-            <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
-                {% csrf_token %}
-                <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                <input type="text" name="name" placeholder="Name / Nickname" value="{% if portfolio %}{{ portfolio.name }}{% endif %}" readonly>
-                <input type="text" name="role" placeholder="Role" value="{% if portfolio %}{{ portfolio.role }}{% endif %}" readonly>
-                <textarea name="personal_quotes" placeholder="Text About Me" readonly>{% if portfolio %}{{ portfolio.personal_quotes }}{% endif %}</textarea>
-                <input type="file" name="me_picture" disabled>
-                <input type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{% if portfolio %}{{ portfolio.linkedin_link }}{% endif %}" readonly>
-                <div class="actions">
-                    <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
-                    <button type="submit" class="save" disabled>Save</button>
-                </div>
-            </form>
-        </section>
-        <section class="section">
-            <h3>Expertises</h3>
-            {% if portfolio %}
-            <form method="post" enctype="multipart/form-data" action="{% url 'add_skill' portfolio.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                <input type="text" name="skill_name" placeholder="Skill Name" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}>
-                <textarea name="skill_description" placeholder="Info About It" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}></textarea>
-                <button type="submit" class="save" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}>Save</button>
-            </form>
-            {% else %}
-            <p>Please create a portfolio first.</p>
-            {% endif %}
-            <div class="skill-list">
-                {% for skill in portfolio.skills_set.all %}
-                    <div class="skill">
-                        <h4>{{ skill.skill_name }}</h4>
-                        <p>{{ skill.skill_description }}</p>
-                        <div class="actions">
-                            <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="delete">Delete</button>
-                            </form>
-                            <button class="edit" onclick="enableEditSkill(this)">Edit</button>
-                        </div>
+            <section class="portfolio-link">
+                <h2>Portfolio Link</h2>
+                <p><a href="{% if portfolio %}{{ portfolio.get_portfolio_link }}{% else %}#{% endif %}">http://portfolio.dev/me/{% if portfolio %}{{ portfolio.user_id.username|slugify }}{% else %}#portfolio-not-created{% endif %}</a></p>
+                {% if not portfolio %}
+                    <p>You do not have a portfolio yet.</p>
+                {% endif %}
+            </section>
+            <section class="section">
+                <h3>User Information</h3>
+                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
+                    <input type="text" name="portfolio_link" placeholder="Portfolio Link" value="{% if portfolio %}{{ portfolio.get_portfolio_link }}{% endif %}" readonly>
+                    <input type="text" name="name" placeholder="Name / Nickname" value="{% if portfolio %}{{ portfolio.name }}{% endif %}" readonly>
+                    <input type="text" name="role" placeholder="Role" value="{% if portfolio %}{{ portfolio.role }}{% endif %}" readonly>
+                    <textarea name="personal_quotes" placeholder="Text About Me" readonly>{% if portfolio %}{{ portfolio.personal_quotes }}{% endif %}</textarea>
+                    <input type="file" name="me_picture" disabled>
+                    <input type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{% if portfolio %}{{ portfolio.linkedin_link }}{% endif %}" readonly>
+                    <div class="actions">
+                        <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
+                        <button type="submit" class="save" disabled>Save</button>
                     </div>
-                {% endfor %}
-            </div>
-        </section>
-        <section class="section">
-            <h3>Contact Me</h3>
-            <form>
-                <input type="email" placeholder="Email" readonly>
-                <div class="actions">
-                    <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
-                    <button type="submit" class="save" disabled>Save</button>
+                </form>
+            </section>
+            <section class="section">
+                <h3>Design</h3>
+                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
+                    <input type="text" name="accent_color" placeholder="Accent color" value="{% if portfolio %}{{ portfolio.accent_color }}{% endif %}">
+                    <input type="file" name="home_picture" placeholder="Image for Home">
+                    <div class="actions">
+                        <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
+                        <button type="submit" class="save">Save</button>
+                    </div>
+                </form>
+            </section>
+            <section class="section">
+                <h3>About Me</h3>
+                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
+                    <input type="text" name="name" placeholder="Name / Nickname" value="{% if portfolio %}{{ portfolio.name }}{% endif %}">
+                    <input type="text" name="role" placeholder="Role" value="{% if portfolio %}{{ portfolio.role }}{% endif %}">
+                    <textarea name="personal_quotes" placeholder="Text About Me">{% if portfolio %}{{ portfolio.personal_quotes }}{% endif %}</textarea>
+                    <input type="file" name="me_picture">
+                    <input type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{% if portfolio %}{{ portfolio.linkedin_link }}{% endif %}">
+                    <div class="actions">
+                        <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
+                        <button type="submit" class="save">Save</button>
+                    </div>
+                </form>
+            </section>
+            <section class="section">
+                <h3>Expertises</h3>
+                {% if portfolio %}
+                <form method="post" enctype="multipart/form-data" action="{% url 'add_skill' portfolio.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
+                    <input type="text" name="skill_name" placeholder="Skill Name" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}>
+                    <textarea name="skill_description" placeholder="Info About It" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}></textarea>
+                    <button type="submit" class="save" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}>Save</button>
+                </form>
+                {% else %}
+                <p>Please create a portfolio first.</p>
+                {% endif %}
+                <div class="skill-list">
+                    {% for skill in portfolio.skills_set.all %}
+                        <div class="skill">
+                            <h4>{{ skill.skill_name }}</h4>
+                            <p>{{ skill.skill_description }}</p>
+                            <div class="actions">
+                                <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete">Delete</button>
+                                </form>
+                                <button class="edit" onclick="enableEditSkill(this)">Edit</button>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p>© 2024 DevPortfolio. All rights reserved.</p>
-    </footer>
-</div>
+            </section>
+            <section class="section">
+                <h3>Contact Me</h3>
+                <form>
+                    <input type="email" placeholder="Email" readonly>
+                    <div class="actions">
+                        <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
+                        <button type="submit" class="save" disabled>Save</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+        <footer>
+            <p>© 2024 DevPortfolio. All rights reserved.</p>
+        </footer>
+    </div>
     <script>
         function enableEdit(button) {
             const form = button.closest('form');
