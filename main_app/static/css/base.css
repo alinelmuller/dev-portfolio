@@ -13,6 +13,9 @@ body {
     background: var(--light-color);
     background-color: #f4f4f4;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
@@ -270,3 +273,5 @@ form .actions button:last-child {
 .skill .actions {
     text-align: right;
 }
+
+

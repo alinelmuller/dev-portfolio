@@ -1,17 +1,91 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
+<style>
+
+.container-login {
+    width: 400px;
+    max-width: 400px;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.container-login h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.container-login form {
+    margin-top: 20px;
+    display: block;
+}
+
+.container-login form input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.container-login form button {
+    width: 100px;
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.container-login form button:hover {
+    background: #0056b3;
+}
+
+.container-login p {
+    margin: 15px 0 0;
+    font-size: 14px;
+    color: #666;
+    display: block;
+}
+
+.container-login p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.container-login p a:hover {
+    text-decoration: underline;
+}
+
+</style>
 <body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'register_user' %}">Register here</a></p>
+    <div class="container-login">
+        <h1>DevPortfolio</h1>
+        <p>Please sign in to your account</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign In</button>
+        </form>
+        <!-- <p><a href="#">Forgot password?</a></p> -->
+        <p>Don't have an account? <a href="{% url 'register_user' %}">Register here</a></p>
+    </div>
 </body>
 </html>

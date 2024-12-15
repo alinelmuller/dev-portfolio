@@ -37,7 +37,7 @@
     </header>
     <section class="user">
         <div class="user-info">
-            <h1>I am <span>{{ user.name }}</span><span>{{ portfolio.role }}</span></h1>
+            <h1>I am <span>{{ portfolio.name }}</span><span>{{ portfolio.role }}</span></h1>
             <p>{{ portfolio.personal_quotes }}</p>
             <p>LinkedIn: <a href="{{ portfolio.linkedin_link }}">{{ portfolio.linkedin_link }}</a></p>
         </div>
@@ -47,7 +47,7 @@
         <img src="{{ portfolio.me_picture.url }}" alt="{{ portfolio.name }}">
         <div>
             <h2>About Me</h2>
-            <p>I am a {{ portfolio.role }} with a passion for crafting beautiful and functional web solutions. I have experience in building web applications using modern technologies like React, Django, and Node.js. I am always looking for new challenges and opportunities to grow as a developer.</p>
+            <p>I am {{ portfolio.name }} a {{ portfolio.role }} {{ portfolio.personal_quotes }}</p>
             <button>Download CV</button>
         </div>
     </section>
@@ -61,7 +61,6 @@
                 <p>{{ skill.skill_description }}</p>
                 <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit">Delete</button>
                 </form>
             </div>
             {% endfor %}

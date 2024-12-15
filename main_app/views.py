@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib import messages
+from django.contrib.auth.models import User
+import json
 
 from .models import Portfolio, Skills, User
 from .forms import PortfolioForm, SkillsForm, UserForm
@@ -19,38 +22,14 @@ def portfolio_index(request):
 
 def create_portfolio(request):
     if request.method == 'POST':
-        user = User.objects.get(id=request.POST['user_id'])
-        name = request.POST['name']  
-        role = request.POST['role']
-        linkedin_link = request.POST['linkedin_link']
-        me_picture = request.FILES['me_picture']
-        accent_color = request.POST['accent_color']
-        home_picture = request.FILES['home_picture']
-        personal_quotes = request.POST['personal_quotes']
-
-        portfolio = Portfolio(
-            user_id=user,
-            name=name,  
-            role=role,
-            linkedin_link=linkedin_link,
-            me_picture=me_picture,
-            accent_color=accent_color,
-            home_picture=home_picture,
-            personal_quotes=personal_quotes
-        )
-        portfolio.save()
-        success_message = "Portfolio created successfully!"
-        return render(request, 'cms/index.html', {
-            'success_message': success_message,
-            'name': name,
-            'role': role,
-            'linkedin_link': linkedin_link,
-            'accent_color': accent_color,
-            'personal_quotes': personal_quotes,
-            'portfolio': portfolio
-        })
-
-    return render(request, 'cms/index.html')
+        form = PortfolioForm(request.POST, request.FILES)
+        if form.is_valid():
+            portfolio = form.save()
+            success_message = "Portfolio created successfully!"
+            return render(request, 'cms/index.html', {'success_message': success_message, 'form': form, 'portfolio': portfolio})
+    else:
+        form = PortfolioForm()
+    return render(request, 'cms/index.html', {'form': form})
 
 def view_portfolio(request, portfolio_id):
     portfolio = get_object_or_404(Portfolio, id=portfolio_id)
@@ -82,6 +61,18 @@ def delete_skill(request, skill_id):
     skill.delete()
     return redirect('edit_portfolio', portfolio_id=portfolio_id)
 
+def edit_skill(request, skill_id):
+    skill = get_object_or_404(Skills, id=skill_id)
+    portfolio_id = skill.portfolio.id
+    if request.method == 'POST':
+        form = SkillsForm(request.POST, instance=skill)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_portfolio', portfolio_id=portfolio_id)
+    else:
+        form = SkillsForm(instance=skill)
+    return render(request, 'cms/index.html', {'form': form, 'portfolio': skill.portfolio})
+
 def user_list(request):
     users = User.objects.all()
     return render(request, 'users/index.html', {'users': users})
@@ -91,7 +82,7 @@ def create_user(request):
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             user_form.save()
-            return redirect('user_list')  # Change 'user_list' to your desired redirect URL
+            return redirect('user_list') 
     else:
         user_form = UserForm()
     return render(request, 'users/create.html', {'form': user_form})
@@ -123,3 +114,11 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+def confirm_email(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        user = User.objects.filter(email=email).exists()
+        return JsonResponse({'valid': user})
+    return JsonResponse({'valid': False})

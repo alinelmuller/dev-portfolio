@@ -1,78 +1,278 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Portfolio Form</title>
-    <script>
-        function enableEditing() {
-            var inputs = document.querySelectorAll('input, textarea');
-            inputs.forEach(function(input) {
-                input.disabled = false;
-            });
-            document.getElementById('edit-button').style.display = 'none';
-            document.getElementById('save-button').style.display = 'inline';
-        }
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Portfolio</title>
+    <link rel="stylesheet" href="{% static 'css/portfolios/portfolios.css' %}">
 </head>
-<body>
-    <h1>{% if portfolio %}Edit{% else %}Create{% endif %} Portfolio</h1>
-    {% if success_message %}
-        <p style="color: green;">{{ success_message }}</p>
-    {% endif %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="hidden" name="user_id" value="{{ request.user.id }}">
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" value="{{ portfolio.name|default_if_none:'' }}" disabled></br>
-        <label for="role">Role:</label>
-        <input type="text" name="role" id="role" value="{{ portfolio.role|default_if_none:'' }}" disabled></br>
-        <label for="linkedin_link">LinkedIn Link:</label>
-        <input type="url" name="linkedin_link" id="linkedin_link" value="{{ portfolio.linkedin_link|default_if_none:'' }}" disabled></br>
-        <label for="me_picture">Me Picture:</label>
-        <input type="file" name="me_picture" id="me_picture" disabled></br>
-        <label for="accent_color">Accent Color:</label>
-        <input type="text" name="accent_color" id="accent_color" value="{{ portfolio.accent_color|default_if_none:'#000000' }}" disabled></br>
-        <label for="home_picture">Home Picture:</label>
-        <input type="file" name="home_picture" id="home_picture" disabled></br>
-        <label for="personal_quotes">Personal Quotes:</label>
-        <input type="text" name="personal_quotes" id="personal_quotes" value="{{ portfolio.personal_quotes|default_if_none:'' }}" disabled></br>
-        <button type="button" id="edit-button" onclick="enableEditing()">Edit</button>
-        <button type="submit" id="save-button" style="display:none;">Save</button>
-    </form>
+<style>
+/* General Reset */
+body, h1, h2, h3, h4, p, form, input, button, textarea {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    <h2>Skills</h2>
-    {% if portfolio %}
-        {% if portfolio.skills_set.count < 6 %}
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f4f6;
+    color: #333;
+}
+
+/* Header */
+header {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+header .action {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+header .action:hover {
+    text-decoration: underline;
+}
+
+/* Main */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+/* Portfolio Link */
+.portfolio-link {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-link h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Sections */
+.section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.section h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.section form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.section form textarea {
+    grid-column: span 2;
+}
+
+.section form .actions {
+    grid-column: span 2;
+    text-align: right;
+}
+
+/* Inputs */
+input, textarea, button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+/* Buttons */
+button {
+    border: none;
+    cursor: pointer;
+}
+
+button.edit {
+    background: #ddd;
+}
+
+button.save {
+    background: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+button.delete {
+    background: #e74c3c;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Skill List */
+.skill-list {
+    margin-top: 20px;
+}
+
+.skill {
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skill h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 12px;
+    color: #aaa;
+}
+
+
+</style>
+<body>
+    <div class="container">
+    <header>
+        <div class="container-header">
+            <h1>DevPortfolio</h1>
+            <div>
+                <a href="{% url 'logout' %}" class="action">Logout</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="portfolio-link">
+            <h2>Portfolio Link</h2>
+            {% if portfolio %}
+                <p><a href="{% url 'view_portfolio' portfolio.id %}">http://www.devportfolio/me/{{ portfolio.id }}</a></p>
+            {% else %}
+                <p>You do not have a portfolio yet.</p>
+            {% endif %}
+        </section>
+        <section class="section">
+            <h3>Design</h3>
+            <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
+                {% csrf_token %}
+                <input type="text" name="accent_color" placeholder="Accent color" value="{% if portfolio %}{{ portfolio.accent_color }}{% endif %}" readonly>
+                <input type="file" name="home_picture" placeholder="Image for Home" disabled>
+                <div class="actions">
+                    <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
+                    <button type="submit" class="save" disabled>Save</button>
+                </div>
+            </form>
+        </section>
+        <section class="section">
+            <h3>About Me</h3>
+            <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Name / Nickname" value="{% if portfolio %}{{ portfolio.name }}{% endif %}" readonly>
+                <input type="text" name="role" placeholder="Role" value="{% if portfolio %}{{ portfolio.role }}{% endif %}" readonly>
+                <textarea name="personal_quotes" placeholder="Text About Me" readonly>{% if portfolio %}{{ portfolio.personal_quotes }}{% endif %}</textarea>
+                <input type="file" name="me_picture" disabled>
+                <input type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{% if portfolio %}{{ portfolio.linkedin_link }}{% endif %}" readonly>
+                <div class="actions">
+                    <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
+                    <button type="submit" class="save" disabled>Save</button>
+                </div>
+            </form>
+        </section>
+        <section class="section">
+            <h3>Expertises</h3>
+            {% if portfolio %}
             <form method="post" enctype="multipart/form-data" action="{% url 'add_skill' portfolio.id %}">
                 {% csrf_token %}
-                <label for="skill_name">Skill Name:</label>
-                <input type="text" name="skill_name" id="skill_name" required></br>
-                <label for="skill_description">Skill Description:</label>
-                <textarea name="skill_description" id="skill_description" required></textarea></br>
-                <button type="submit">Add Skill</button>
+                <input type="text" name="skill_name" placeholder="Skill Name" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}>
+                <textarea name="skill_description" placeholder="Info About It" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}></textarea>
+                <button type="submit" class="save" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}>Save</button>
             </form>
-        {% else %}
-            <p>You can only add up to 6 skills.</p>
-        {% endif %}
-        <ul>
-            {% for skill in portfolio.skills_set.all %}
-                <li>
-                    {{ skill.skill_name }}: {{ skill.skill_description }}
-                    <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit">Delete</button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>You do not have a portfolio yet.</p>
-    {% endif %}
+            {% else %}
+            <p>Please create a portfolio first.</p>
+            {% endif %}
+            <div class="skill-list">
+                {% for skill in portfolio.skills_set.all %}
+                    <div class="skill">
+                        <h4>{{ skill.skill_name }}</h4>
+                        <p>{{ skill.skill_description }}</p>
+                        <div class="actions">
+                            <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete">Delete</button>
+                            </form>
+                            <button class="edit" onclick="enableEditSkill(this)">Edit</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+        <section class="section">
+            <h3>Contact Me</h3>
+            <form>
+                <input type="email" placeholder="Email" readonly>
+                <div class="actions">
+                    <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
+                    <button type="submit" class="save" disabled>Save</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 DevPortfolio. All rights reserved.</p>
+    </footer>
+</div>
+    <script>
+        function enableEdit(button) {
+            const form = button.closest('form');
+            const inputs = form.querySelectorAll('input, textarea');
+            inputs.forEach(input => input.removeAttribute('readonly'));
+            inputs.forEach(input => input.removeAttribute('disabled'));
+            form.querySelector('.save').removeAttribute('disabled');
+        }
 
-    <h2>View Your Portfolio</h2>
-    {% if portfolio %}
-        <a href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a>
-    {% else %}
-        <p>You do not have a portfolio yet.</p>
-    {% endif %}
+        function enableEditSkill(button) {
+            const skill = button.closest('.skill');
+            const skillName = skill.querySelector('h4').innerText;
+            const skillDescription = skill.querySelector('p').innerText;
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = button.closest('.skill').querySelector('form').action.replace('delete_skill', 'edit_skill');
+            form.innerHTML = `
+                {% csrf_token %}
+                <input type="text" name="skill_name" value="${skillName}">
+                <textarea name="skill_description">${skillDescription}</textarea>
+                <button type="submit" class="save">Save</button>
+            `;
+            skill.innerHTML = '';
+            skill.appendChild(form);
+        }
+    </script>
 </body>
 </html>
