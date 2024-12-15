@@ -122,3 +122,7 @@ def confirm_email(request):
         user = User.objects.filter(email=email).exists()
         return JsonResponse({'valid': user})
     return JsonResponse({'valid': False})
+
+def cms_index(request, portfolio_id):
+    portfolio = get_object_or_404(Portfolio, id=portfolio_id)
+    return render(request, 'cms/index.html', {'portfolio': portfolio})

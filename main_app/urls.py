@@ -9,6 +9,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('portfolios/', views.portfolio_index, name='portfolio_index'),
     path('cms/', views.create_portfolio, name='create_portfolio'),
+    path('cms/<int:portfolio_id>/', views.cms_index, name='cms_index'),
     path('cms/<int:portfolio_id>/', views.edit_portfolio, name='edit_portfolio'),
     path('cms/<int:portfolio_id>/add_skill/', views.add_skill, name='add_skill'),
     path('cms/skill/<int:skill_id>/delete/', views.delete_skill, name='delete_skill'),
