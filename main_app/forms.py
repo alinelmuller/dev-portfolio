@@ -4,8 +4,11 @@ from .models import Portfolio, Skills, User
 class PortfolioForm(forms.ModelForm):
     class Meta:
         model = Portfolio
-        fields = '__all__'
-        # ...existing code...
+        fields = [
+            'name', 'role', 'about_me', 'github_link', 'cv_pdf',
+            'linkedin_link', 'personal_quotes', 'accent_color',
+            'home_picture', 'me_picture'
+        ]
 
 class SkillsForm(forms.ModelForm):
     class Meta:

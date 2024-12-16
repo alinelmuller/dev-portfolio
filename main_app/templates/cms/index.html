@@ -242,63 +242,62 @@
             </section>
     
             <section class="section">
-                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}?profile_id={{ user.id }}{% else %}{% url 'create_portfolio' %}?profile_id={{ user.id }}{% endif %}">
+                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
                     {% csrf_token %}
                     <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
                 
                     <div class="form-group">
                         <label for="name">Name / Nickname</label>
-                        <input id="name" type="text" name="name" placeholder="Name / Nickname" value="{{ portfolio.name }}" readonly>
+                        <input id="name" type="text" name="name" placeholder="Name / Nickname" value="{{ portfolio.name }}">
                     </div>
                 
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <input id="role" type="text" name="role" placeholder="Role" value="{{ portfolio.role }}" readonly>
+                        <input id="role" type="text" name="role" placeholder="Role" value="{{ portfolio.role }}">
                     </div>
                 
                     <div class="form-group">
                         <label for="about_me">About Me</label>
-                        <textarea id="about_me" name="about_me" placeholder="About Me" readonly>{{ portfolio.about_me }}</textarea>
+                        <textarea id="about_me" name="about_me" placeholder="About Me">{{ portfolio.about_me }}</textarea>
                     </div>
                 
                     <div class="form-group">
                         <label for="github_link">GitHub Link</label>
-                        <input id="github_link" type="text" name="github_link" placeholder="GitHub Link" value="{{ portfolio.github_link }}" readonly>
+                        <input id="github_link" type="text" name="github_link" placeholder="GitHub Link" value="{{ portfolio.github_link }}">
                     </div>
                 
                     <div class="form-group">
                         <label for="cv_pdf">Upload CV</label>
-                        <input id="cv_pdf" type="file" name="cv_pdf" placeholder="Upload CV" disabled>
+                        <input id="cv_pdf" type="file" name="cv_pdf" placeholder="Upload CV">
                     </div>
                 
                     <div class="form-group">
                         <label for="linkedin_link">LinkedIn Link</label>
-                        <input id="linkedin_link" type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{{ portfolio.linkedin_link }}" readonly>
+                        <input id="linkedin_link" type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{{ portfolio.linkedin_link }}">
                     </div>
                 
                     <div class="form-group">
                         <label for="personal_quotes">Personal Quotes</label>
-                        <textarea id="personal_quotes" name="personal_quotes" placeholder="Text About Me" readonly>{{ portfolio.personal_quotes }}</textarea>
+                        <textarea id="personal_quotes" name="personal_quotes" placeholder="Text About Me">{{ portfolio.personal_quotes }}</textarea>
                     </div>
                 
                     <div class="form-group">
                         <label for="accent_color">Accent Color</label>
-                        <input id="accent_color" type="text" name="accent_color" placeholder="Accent color" value="{{ portfolio.accent_color }}" readonly>
+                        <input id="accent_color" type="text" name="accent_color" placeholder="Accent color" value="{{ portfolio.accent_color }}">
                     </div>
                 
                     <div class="form-group">
                         <label for="home_picture">Image for Home</label>
-                        <input id="home_picture" type="file" name="home_picture" placeholder="Image for Home" disabled>
+                        <input id="home_picture" type="file" name="home_picture" placeholder="Image for Home">
                     </div>
                 
                     <div class="form-group">
                         <label for="me_picture">Profile Picture</label>
-                        <input id="me_picture" type="file" name="me_picture" disabled>
+                        <input id="me_picture" type="file" name="me_picture">
                     </div>
                 
                     <div class="actions">
-                        <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
-                        <button type="submit" class="save" disabled>Save</button>
+                        <button type="submit" class="save">Save</button>
                     </div>
                 </form>
             </section>
@@ -363,8 +362,10 @@
         function enableEdit(button) {
             const form = button.closest('form');
             const inputs = form.querySelectorAll('input, textarea');
-            inputs.forEach(input => input.removeAttribute('readonly'));
-            inputs.forEach(input => input.removeAttribute('disabled'));
+            inputs.forEach(input => {
+                input.removeAttribute('readonly');
+                input.removeAttribute('disabled');
+            });
             form.querySelector('.save').removeAttribute('disabled');
         }
 

@@ -22,10 +22,8 @@ def create_portfolio(request):
     if request.method == 'POST':
         form = PortfolioForm(request.POST, request.FILES)
         if form.is_valid():
-            portfolio = form.save(commit=False)
-            portfolio.user_id = request.user
-            portfolio.save()
-            return redirect('view_portfolio', portfolio_id=portfolio.id)
+            form.save()
+            return redirect('portfolio_index')
     else:
         form = PortfolioForm()
     return render(request, 'cms/index.html', {'form': form})
@@ -40,7 +38,7 @@ def edit_portfolio(request, portfolio_id):
         form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
         if form.is_valid():
             form.save()
-            return redirect('view_portfolio', portfolio_id=portfolio.id)
+            return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
     else:
         form = PortfolioForm(instance=portfolio)
     return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
