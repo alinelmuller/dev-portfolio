@@ -37,6 +37,10 @@ def view_portfolio(request, portfolio_id):
 def edit_portfolio(request, portfolio_id):
     portfolio = get_object_or_404(Portfolio, id=portfolio_id)
     if request.method == 'POST':
+        if 'delete_home_picture' in request.POST:
+            portfolio.home_picture.delete()
+        if 'delete_me_picture' in request.POST:
+            portfolio.me_picture.delete()
         form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
         if form.is_valid():
             form.save()

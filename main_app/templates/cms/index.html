@@ -291,6 +291,7 @@
                         <input id="home_picture" type="file" name="home_picture" placeholder="Image for Home">
                         {% if portfolio.home_picture %}
                             <img src="{{ portfolio.home_picture.url }}" alt="Home Picture" style="max-width: 100%; height: auto; margin-top: 10px;">
+                            <button type="button" class="delete" onclick="deleteImage('home_picture')">Delete</button>
                         {% endif %}
                     </div>
                 
@@ -299,6 +300,7 @@
                         <input id="me_picture" type="file" name="me_picture">
                         {% if portfolio.me_picture %}
                             <img src="{{ portfolio.me_picture.url }}" alt="Profile Picture" style="max-width: 100%; height: auto; margin-top: 10px;">
+                            <button type="button" class="delete" onclick="deleteImage('me_picture')">Delete</button>
                         {% endif %}
                     </div>
                 
@@ -362,6 +364,16 @@
                     });
                 });
             });
+
+            function deleteImage(imageType) {
+                const form = document.getElementById('portfolio-form');
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'delete_' + imageType;
+                input.value = 'true';
+                form.appendChild(input);
+                form.submit();
+            }
 
             function enableEdit(button) {
                 const form = button.closest('form');
