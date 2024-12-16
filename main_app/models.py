@@ -1,21 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.text import slugify
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    portfolio_link = models.URLField(max_length=200, blank=True)
-    name = models.CharField(max_length=100)
-    role = models.CharField(max_length=100)
-    about_me = models.TextField()
-
-    def save(self, *args, **kwargs):
-        if not self.portfolio_link:
-            self.portfolio_link = f"http://portfolio.dev/me/{slugify(self.user.username)}"
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.user.username
 
 class Portfolio(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -42,9 +26,6 @@ class Portfolio(models.Model):
             self.personal_quotes = personal_quotes
         self.save()
 
-    def get_portfolio_link(self):
-        return f"http://portfolio.dev/me/{slugify(self.user_id.username)}"
-
     def __str__(self):
         return self.role
 
@@ -61,4 +42,3 @@ class Skills(models.Model):
 class Portable(models.Model):
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     skill = models.ForeignKey(Skills, on_delete=models.CASCADE)
-

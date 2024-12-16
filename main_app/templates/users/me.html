@@ -27,11 +27,11 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About Me</a></li>
-                <li><a href="#">Expertise</a></li>
-                <li><a href="#">Portfolio</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="{% url 'about' %}">Home</a></li>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#expertise">Expertise</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -44,7 +44,7 @@
         </div>
     </section>
 
-    <section class="about">
+    <section id="about" class="about">
         <img src="{{ portfolio.me_picture.url }}" alt="{{ portfolio.name }}">
         <div>
             <h2>About Me</h2>
@@ -53,7 +53,7 @@
         </div>
     </section>
 
-    <section class="expertise">
+    <section id="expertise" class="expertise">
         <h2>Expertises</h2>
         <div class="cards">
             {% for skill in portfolio.skills_set.all %}
@@ -68,7 +68,7 @@
         </div>
     </section>
 
-    <section class="contact">
+    <section id="contact" class="contact">
         <h2>Let's Chat!</h2>
         <form method="post">
             <input type="text" name="name" placeholder="Name">

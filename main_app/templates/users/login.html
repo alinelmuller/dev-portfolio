@@ -81,10 +81,19 @@
         <p>Please sign in to your account</p>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form.non_field_errors }}
+            <div>
+                <label for="id_username">Email</label>
+                {{ form.username.errors }}
+                {{ form.username }}
+            </div>
+            <div>
+                <label for="id_password">Password</label>
+                {{ form.password.errors }}
+                {{ form.password }}
+            </div>
             <button type="submit">Sign In</button>
         </form>
-        <!-- <p><a href="#">Forgot password?</a></p> -->
         <p>Don't have an account? <a href="{% url 'register_user' %}">Register here</a></p>
     </div>
 </body>

@@ -8,155 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/portfolios/portfolios.css' %}">
 </head>
 <style>
-/* General Reset */
-body, h1, h2, h3, h4, p, form, input, button, textarea {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body */
-body {
-    font-family: Arial, sans-serif;
-    background: #f3f4f6;
-    color: #333;
-}
-
-/* Header */
-header {
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header h1 {
-    font-size: 24px;
-}
-
-header .action {
-    color: #007bff;
-    text-decoration: none;
-    margin-left: 10px;
-    font-size: 14px;
-}
-
-header .action:hover {
-    text-decoration: underline;
-}
-
-/* Main */
-main {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 10px;
-}
-
-/* Portfolio Link */
-.portfolio-link {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.portfolio-link h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-/* Sections */
-.section {
-    margin-bottom: 20px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.section h3 {
-    font-size: 18px;
-    margin-bottom: 15px;
-}
-
-.section form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.section form textarea {
-    grid-column: span 2;
-}
-
-.section form .actions {
-    grid-column: span 2;
-    text-align: right;
-}
-
-/* Inputs */
-input, textarea, button {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    width: 100%;
-}
-
-/* Buttons */
-button {
-    border: none;
-    cursor: pointer;
-}
-
-button.edit {
-    background: #ddd;
-}
-
-button.save {
-    background: #007bff;
-    color: #fff;
-    font-weight: bold;
-}
-
-button.delete {
-    background: #e74c3c;
-    color: #fff;
-    font-weight: bold;
-}
-
-/* Skill List */
-.skill-list {
-    margin-top: 20px;
-}
-
-.skill {
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.skill h4 {
-    font-size: 16px;
-    margin-bottom: 5px;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 10px 0;
-    font-size: 12px;
-    color: #aaa;
-}
-
 
 </style>
 <body>
@@ -165,71 +16,37 @@ footer {
             <div class="container-header">
                 <h1>DevPortfolio</h1>
                 <div>
-                    <a href="{% url 'logout' %}" class="action">Logout</a>
+                    
                 </div>
             </div>
         </header>
         <main>
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+            {% if portfolio %}
             <section class="portfolio-link">
                 <h2>Portfolio Link</h2>
-                <p><a href="{% if portfolio %}{{ portfolio.get_portfolio_link }}{% else %}#{% endif %}">http://portfolio.dev/me/{% if portfolio %}{{ portfolio.user_id.username|slugify }}{% else %}#portfolio-not-created{% endif %}</a></p>
-                {% if not portfolio %}
-                    <p>You do not have a portfolio yet.</p>
-                {% endif %}
+                <p><a href="{{ portfolio.get_portfolio_link }}">http://portfolio.dev/me/{{ portfolio.user_id.username|slugify }}</a></p>
             </section>
-            <section class="section">
-                <h3>User Information</h3>
-                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                    <input type="text" name="portfolio_link" placeholder="Portfolio Link" value="{% if portfolio %}{{ portfolio.get_portfolio_link }}{% endif %}" readonly>
+            {% endif %}
+            <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
+                {% csrf_token %}
+                <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
+                
+                <section class="section">
+                    <h3>User Information</h3>
                     <input type="text" name="name" placeholder="Name / Nickname" value="{% if portfolio %}{{ portfolio.name }}{% endif %}" readonly>
                     <input type="text" name="role" placeholder="Role" value="{% if portfolio %}{{ portfolio.role }}{% endif %}" readonly>
                     <textarea name="personal_quotes" placeholder="Text About Me" readonly>{% if portfolio %}{{ portfolio.personal_quotes }}{% endif %}</textarea>
                     <input type="file" name="me_picture" disabled>
                     <input type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{% if portfolio %}{{ portfolio.linkedin_link }}{% endif %}" readonly>
-                    <div class="actions">
-                        <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
-                        <button type="submit" class="save" disabled>Save</button>
-                    </div>
-                </form>
-            </section>
-            <section class="section">
-                <h3>Design</h3>
-                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                    <input type="text" name="accent_color" placeholder="Accent color" value="{% if portfolio %}{{ portfolio.accent_color }}{% endif %}">
-                    <input type="file" name="home_picture" placeholder="Image for Home">
-                    <div class="actions">
-                        <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
-                        <button type="submit" class="save">Save</button>
-                    </div>
-                </form>
-            </section>
-            <section class="section">
-                <h3>About Me</h3>
-                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                    <input type="text" name="name" placeholder="Name / Nickname" value="{% if portfolio %}{{ portfolio.name }}{% endif %}">
-                    <input type="text" name="role" placeholder="Role" value="{% if portfolio %}{{ portfolio.role }}{% endif %}">
-                    <textarea name="personal_quotes" placeholder="Text About Me">{% if portfolio %}{{ portfolio.personal_quotes }}{% endif %}</textarea>
-                    <input type="file" name="me_picture">
-                    <input type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{% if portfolio %}{{ portfolio.linkedin_link }}{% endif %}">
-                    <div class="actions">
-                        <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
-                        <button type="submit" class="save">Save</button>
-                    </div>
-                </form>
-            </section>
+                    <h3>Design</h3>
+                    <input type="text" name="accent_color" placeholder="Accent color" value="{% if portfolio %}{{ portfolio.accent_color }}{% endif %}" readonly>
+                    <input type="file" name="home_picture" placeholder="Image for Home" disabled>
+                </section>
+                <div class="actions">
+                    <button type="button" class="edit" onclick="enableEdit(this)">Edit</button>
+                    <button type="submit" class="save" disabled>Save</button>
+                </div>
+            </form>
             <section class="section">
                 <h3>Expertises</h3>
                 {% if portfolio %}

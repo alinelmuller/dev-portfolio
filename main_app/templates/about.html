@@ -33,6 +33,7 @@ header {
     background: #1e1e2f;
     color: #fff;
     padding: 10px 0;
+    height: 60px;
 }
 
 header .logo {
@@ -50,6 +51,7 @@ header nav ul {
 
 header nav ul li {
     margin-left: 20px;
+    margin-top: 8px;
 }
 
 header nav ul li a {
@@ -154,7 +156,6 @@ footer {
 
 
 </style>
-
 <body>
     <!-- Header -->
     <header>
@@ -203,8 +204,8 @@ footer {
     <section class="portfolio-showcase">
         <div class="container">
             <h3>Showcase Your Best Work</h3>
-            <p>Here is a link to your portfolio:</p>
-            <a href="#" class="portfolio-link">http://portfolio.dev/me/username</a>
+            <p>Explore the amazing portfolios created by our users</p>
+            <a href="{% url 'portfolio_index' %}" class="portfolio-link">http://portfolio.dev/portfolios</a>
         </div>
     </section>
 

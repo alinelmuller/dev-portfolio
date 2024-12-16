@@ -5,42 +5,50 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/portfolios/portfolios.css' %}" />
     <title>Portfolio Dev</title>
-    {% block head %} 
-    {% endblock %}
   </head>
   <body>
     <div class="container">
-    <header>
-      <div class="header-logo-container">
-        Portfolio Dev
-      </div>
-      <nav>
-        <ul>
+      <header class="cms-header">
+        <div class="cms-header-logo">
+          Portfolio Dev
+        </div>
+        <nav class="cms-nav">
+          <ul>
+            <li><a href="{% url 'register_user' %}">Create</a></li>
             <li><a href="{% url 'login_user' %}">Login</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <section class="page-header">
-        <h1>Portfolio List</h1>
-      </section>
-      <section class="card-container">
-        {% for portfolio in portfolios %}
-          <div class="card">
-            <div class="card-content">
-              <h2 class="card-title">{{ portfolio.name }} - {{ portfolio.role }}</h2>
-              <p><a href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a></p>
+          </ul>
+        </nav>
+      </header>
+      <main class="cms-main">
+        <section class="cms-page-header">
+          <h1>Portfolio List</h1>
+          <p>Explore the amazing portfolios created by our users.</p>
+        </section>
+        <section class="cms-card-container">
+          {% for portfolio in portfolios %}
+            <div class="cms-card">
+              <div class="cms-card-content">
+                <h2 class="cms-card-title">{{ portfolio.name }} - {{ portfolio.role }}</h2>
+                <p><a href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a></p>
+              </div>
             </div>
+          {% endfor %}
+        </section>
+        <!-- Destaque Box -->
+        <section class="cms-destaque">
+          <div class="cms-destaque-container">
+            <h2>Start Building Your Portfolio Today!</h2>
+            <p>Showcase your skills and projects in a beautifully designed portfolio. It's easy and free!</p>
+            <a href="{% url 'register_user' %}" class="cms-destaque-btn">Create Your Portfolio</a>
           </div>
-        {% endfor %}
-      </section>
-      </div>
-     </main>
-     <footer>
+        </section>
+      </main>
+      <footer class="cms-footer">
         <p>&copy; 2024 Portfolio Dev. All rights reserved.</p>
-    </footer>
+      </footer>
+    </div>
   </body>
 </html>

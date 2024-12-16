@@ -1,88 +1,176 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Portfolio Dev</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-</head>
-<style>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container-login {
-        width: 400px;
-        max-width: 400px;
-        padding: 30px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-    
-    .container-login h1 {
-        font-size: 24px;
-        font-weight: bold;
-        color: #666;
-        margin-bottom: 10px;
-    }
-    
-    .container-login form {
-        margin-top: 20px;
-        display: block;
-    }
-    
-    .container-login form input {
-        width: 80%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 14px;
-    }
-    
-    .container-login form button {
-        width: 100px;
-        padding: 10px;
-        background: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.3s;
-    }
-    
-    .container-login form button:hover {
-        background: #0056b3;
-    }
-    
-    .container-login p {
-        margin: 15px 0 0;
-        font-size: 14px;
-        color: #666;
-        display: block;
-    }
-    
-    .container-login p a {
-        color: #007bff;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    
-    .container-login p a:hover {
-        text-decoration: underline;
-    }
-    
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(to bottom, #f3f4f6, #e9ecef);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        p {
+            margin-bottom: 0 !important;
+        }
+
+        ul {
+            color: grey;
+            font-size: 10px;
+            margin-left: 20px;
+            margin-top: -10px;
+        }
+
+        ul.errorlist {
+            margin-top: 10px !important;
+            margin-left: 0px !important;
+            margin-bottom: -15px !important;
+        }
+
+        /* Form Container */
+        .container-login {
+            width: 100%;
+            max-width: 450px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px 30px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .container-login h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .container-login p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        .container-login form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .container-login form label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .container-login form input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container-login form input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Submit Button */
+        .container-login form button {
+            padding: 12px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .container-login form button:hover {
+            background: #0056b3;
+        }
+
+        /* Bottom Text */
+        .container-login .bottom-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .container-login .bottom-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .container-login .bottom-text a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Fade-In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Error Message Styling */
+        .errorlist {
+            color: red;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .helptext {
+            color: grey;
+            font-size: 10px;
+        }
+
     </style>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
 <body>
     <div class="container-login">
         <h2>Register</h2>
+        <p>Create your account to start managing your portfolio.</p>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            {{ profile_form.as_p }}
             <button type="submit">Register</button>
         </form>
-        <p>Already have an account? <a href="{% url 'login_user' %}">Login here</a></p>
+        <p class="bottom-text">
+            Already have an account? <a href="{% url 'login_user' %}">Login here</a>
+        </p>
     </div>
 </body>
 </html>
