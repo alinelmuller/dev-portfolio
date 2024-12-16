@@ -40,7 +40,7 @@ def edit_portfolio(request, portfolio_id):
         form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
         if form.is_valid():
             form.save()
-            return redirect('portfolio_index')
+            return redirect('edit_portfolio', portfolio_id=portfolio.id)
     else:
         form = PortfolioForm(instance=portfolio)
     return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
@@ -111,8 +111,8 @@ def login_user(request):
                 portfolio, created = Portfolio.objects.get_or_create(
                     user_id=user,
                     defaults={
-                        'name': 'Default Name',
-                        'role': 'Default Role',
+                        'name': 'Name',
+                        'role': 'Role',
                         'linkedin_link': 'https://www.linkedin.com',
                         'accent_color': '#000000',
                         'personal_quotes': 'Default Quote',

@@ -242,7 +242,7 @@
             </section>
     
             <section class="section">
-                <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
+                <form id="portfolio-form" method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
                     {% csrf_token %}
                     <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
                 
@@ -289,11 +289,17 @@
                     <div class="form-group">
                         <label for="home_picture">Image for Home</label>
                         <input id="home_picture" type="file" name="home_picture" placeholder="Image for Home">
+                        {% if portfolio.home_picture %}
+                            <img src="{{ portfolio.home_picture.url }}" alt="Home Picture" style="max-width: 100%; height: auto; margin-top: 10px;">
+                        {% endif %}
                     </div>
                 
                     <div class="form-group">
                         <label for="me_picture">Profile Picture</label>
                         <input id="me_picture" type="file" name="me_picture">
+                        {% if portfolio.me_picture %}
+                            <img src="{{ portfolio.me_picture.url }}" alt="Profile Picture" style="max-width: 100%; height: auto; margin-top: 10px;">
+                        {% endif %}
                     </div>
                 
                     <div class="actions">
@@ -345,55 +351,54 @@
                 <p>© 2024 DevPortfolio. All rights reserved.</p>
             </section>
         </div>
-        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('portfolio-form');
+                const inputs = form.querySelectorAll('input, textarea');
 
-
-
-
-
-
-
-
-
-            
-
-
-    <script>
-        function enableEdit(button) {
-            const form = button.closest('form');
-            const inputs = form.querySelectorAll('input, textarea');
-            inputs.forEach(input => {
-                input.removeAttribute('readonly');
-                input.removeAttribute('disabled');
+                inputs.forEach(input => {
+                    input.addEventListener('change', function() {
+                        form.submit();
+                    });
+                });
             });
-            form.querySelector('.save').removeAttribute('disabled');
-        }
 
-        function enableEditSkill(button) {
-            const skill = button.closest('.skill');
-            const skillName = skill.querySelector('h4').innerText;
-            const skillDescription = skill.querySelector('p').innerText;
-            const form = document.createElement('form');
-            form.method = 'post';
-            form.action = button.closest('.skill').querySelector('form').action.replace('delete_skill', 'edit_skill');
-            form.innerHTML = `
-                {% csrf_token %}
-                <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                <input type="text" name="skill_name" value="${skillName}">
-                <textarea name="skill_description">${skillDescription}</textarea>
-                <button type="submit" class="save">Save</button>
-            `;
-            skill.innerHTML = '';
-            skill.appendChild(form);
-        }
+            function enableEdit(button) {
+                const form = button.closest('form');
+                const inputs = form.querySelectorAll('input, textarea');
+                inputs.forEach(input => {
+                    input.removeAttribute('readonly');
+                    input.removeAttribute('disabled');
+                });
+                form.querySelector('.save').removeAttribute('disabled');
+            }
 
-        function editSkill(skillId, skillName, skillDescription) {
-            document.getElementById('skill_id').value = skillId;
-            document.getElementById('skill_name').value = skillName;
-            document.getElementById('skill_description').value = skillDescription;
-            document.getElementById('skill-form').action = "{% url 'edit_skill' 0 %}".replace('0', skillId);
-            document.getElementById('skill-form').style.display = 'block';
-        }
-    </script>
+            function enableEditSkill(button) {
+                const skill = button.closest('.skill');
+                const skillName = skill.querySelector('h4').innerText;
+                const skillDescription = skill.querySelector('p').innerText;
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = button.closest('.skill').querySelector('form').action.replace('delete_skill', 'edit_skill');
+                form.innerHTML = `
+                    {% csrf_token %}
+                    <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
+                    <input type="text" name="skill_name" value="${skillName}">
+                    <textarea name="skill_description">${skillDescription}</textarea>
+                    <button type="submit" class="save">Save</button>
+                `;
+                skill.innerHTML = '';
+                skill.appendChild(form);
+            }
+
+            function editSkill(skillId, skillName, skillDescription) {
+                document.getElementById('skill_id').value = skillId;
+                document.getElementById('skill_name').value = skillName;
+                document.getElementById('skill_description').value = skillDescription;
+                document.getElementById('skill-form').action = "{% url 'edit_skill' 0 %}".replace('0', skillId);
+                document.getElementById('skill-form').style.display = 'block';
+            }
+        </script>
+    </div>
 </body>
 </html>
