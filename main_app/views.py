@@ -27,6 +27,9 @@ def create_portfolio(request):
         accent_color = request.POST['accent_color']
         home_picture = request.FILES['home_picture']
         personal_quotes = request.POST['personal_quotes']
+        about_me = request.POST['about_me']
+        github_link = request.POST['github_link']
+        cv_pdf = request.FILES['cv_pdf']
 
         portfolio = Portfolio(
             user_id=user,
@@ -36,7 +39,10 @@ def create_portfolio(request):
             me_picture=me_picture,
             accent_color=accent_color,
             home_picture=home_picture,
-            personal_quotes=personal_quotes
+            personal_quotes=personal_quotes,
+            about_me=about_me,
+            github_link=github_link,
+            cv_pdf=cv_pdf
         )
         portfolio.save()
         success_message = "Portfolio created successfully!"
@@ -47,6 +53,9 @@ def create_portfolio(request):
             'linkedin_link': linkedin_link,
             'accent_color': accent_color,
             'personal_quotes': personal_quotes,
+            'about_me': about_me,
+            'github_link': github_link,
+            'cv_pdf': cv_pdf,
             'portfolio': portfolio
         })
 

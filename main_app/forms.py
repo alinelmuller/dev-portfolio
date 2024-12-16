@@ -5,6 +5,7 @@ class PortfolioForm(forms.ModelForm):
     class Meta:
         model = Portfolio
         fields = '__all__'
+        # ...existing code...
 
 class SkillsForm(forms.ModelForm):
     class Meta:

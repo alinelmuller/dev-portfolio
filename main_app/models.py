@@ -10,6 +10,9 @@ class Portfolio(models.Model):
     accent_color = models.CharField(max_length=7)  # Hexadecimal color
     home_picture = models.ImageField(upload_to='home_pictures/')
     personal_quotes = models.CharField(max_length=250)
+    about_me = models.TextField(blank=True)
+    github_link = models.URLField(max_length=200, blank=True)
+    cv_pdf = models.FileField(upload_to='cvs/', blank=True)
 
     def edit_portfolio(self, role=None, linkedin_link=None, me_picture=None, accent_color=None, home_picture=None, personal_quotes=None):
         if role is not None:
