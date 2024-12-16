@@ -248,22 +248,22 @@
                 
                     <div class="form-group">
                         <label for="name">Name / Nickname</label>
-                        <input id="name" type="text" name="name" placeholder="Name / Nickname" value="{% if portfolio %}{{ portfolio.name }}{% endif %}" readonly>
+                        <input id="name" type="text" name="name" placeholder="Name / Nickname" value="{{ portfolio.name }}" readonly>
                     </div>
                 
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <input id="role" type="text" name="role" placeholder="Role" value="{% if portfolio %}{{ portfolio.role }}{% endif %}" readonly>
+                        <input id="role" type="text" name="role" placeholder="Role" value="{{ portfolio.role }}" readonly>
                     </div>
                 
                     <div class="form-group">
                         <label for="about_me">About Me</label>
-                        <textarea id="about_me" name="about_me" placeholder="About Me" readonly>{% if portfolio %}{{ portfolio.about_me }}{% endif %}</textarea>
+                        <textarea id="about_me" name="about_me" placeholder="About Me" readonly>{{ portfolio.about_me }}</textarea>
                     </div>
                 
                     <div class="form-group">
                         <label for="github_link">GitHub Link</label>
-                        <input id="github_link" type="text" name="github_link" placeholder="GitHub Link" value="{% if portfolio %}{{ portfolio.github_link }}{% endif %}" readonly>
+                        <input id="github_link" type="text" name="github_link" placeholder="GitHub Link" value="{{ portfolio.github_link }}" readonly>
                     </div>
                 
                     <div class="form-group">
@@ -273,17 +273,17 @@
                 
                     <div class="form-group">
                         <label for="linkedin_link">LinkedIn Link</label>
-                        <input id="linkedin_link" type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{% if portfolio %}{{ portfolio.linkedin_link }}{% endif %}" readonly>
+                        <input id="linkedin_link" type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{{ portfolio.linkedin_link }}" readonly>
                     </div>
                 
                     <div class="form-group">
                         <label for="personal_quotes">Personal Quotes</label>
-                        <textarea id="personal_quotes" name="personal_quotes" placeholder="Text About Me" readonly>{% if portfolio %}{{ portfolio.personal_quotes }}{% endif %}</textarea>
+                        <textarea id="personal_quotes" name="personal_quotes" placeholder="Text About Me" readonly>{{ portfolio.personal_quotes }}</textarea>
                     </div>
                 
                     <div class="form-group">
                         <label for="accent_color">Accent Color</label>
-                        <input id="accent_color" type="text" name="accent_color" placeholder="Accent color" value="{% if portfolio %}{{ portfolio.accent_color }}{% endif %}" readonly>
+                        <input id="accent_color" type="text" name="accent_color" placeholder="Accent color" value="{{ portfolio.accent_color }}" readonly>
                     </div>
                 
                     <div class="form-group">
@@ -302,20 +302,16 @@
                     </div>
                 </form>
             </section>
-
-
-
-
-
             <section class="section">
                 <h3>Expertises</h3>
                 {% if portfolio %}
-                <form method="post" enctype="multipart/form-data" action="{% url 'add_skill' portfolio.id %}">
+                <form method="post" enctype="multipart/form-data" action="{% url 'add_skill' portfolio.id %}" id="skill-form" {% if portfolio.skills_set.count >= 6 %}style="display:none;"{% endif %}>
                     {% csrf_token %}
                     <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                    <input type="text" name="skill_name" placeholder="Skill Name" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}>
-                    <textarea name="skill_description" placeholder="Info About It" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}></textarea>
-                    <button type="submit" class="save" {% if portfolio.skills_set.count >= 6 %}disabled{% endif %}>Save</button>
+                    <input type="hidden" name="skill_id" id="skill_id">
+                    <input type="text" name="skill_name" id="skill_name" placeholder="Skill Name">
+                    <textarea name="skill_description" id="skill_description" placeholder="Info About It"></textarea>
+                    <button type="submit" class="save">Save</button>
                 </form>
                 {% else %}
                 <p>Please create a portfolio first.</p>
@@ -330,7 +326,7 @@
                                     {% csrf_token %}
                                     <button type="submit" class="delete">Delete</button>
                                 </form>
-                                <button class="edit" onclick="enableEditSkill(this)">Edit</button>
+                                <button class="edit" onclick="editSkill('{{ skill.id }}', '{{ skill.skill_name }}', '{{ skill.skill_description }}')">Edit</button>
                             </div>
                         </div>
                     {% endfor %}
@@ -388,6 +384,14 @@
             `;
             skill.innerHTML = '';
             skill.appendChild(form);
+        }
+
+        function editSkill(skillId, skillName, skillDescription) {
+            document.getElementById('skill_id').value = skillId;
+            document.getElementById('skill_name').value = skillName;
+            document.getElementById('skill_description').value = skillDescription;
+            document.getElementById('skill-form').action = "{% url 'edit_skill' 0 %}".replace('0', skillId);
+            document.getElementById('skill-form').style.display = 'block';
         }
     </script>
 </body>

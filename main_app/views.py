@@ -20,51 +20,15 @@ def portfolio_index(request):
 
 def create_portfolio(request):
     if request.method == 'POST':
-        try:
-            user = User.objects.get(id=request.POST.get('profile_id', request.user.id))
-        except MultiValueDictKeyError:
-            return HttpResponse("Profile ID is missing", status=400)
-        
-        name = request.POST.get('name', 'Default Name')
-        role = request.POST.get('role', 'Default Role')
-        linkedin_link = request.POST.get('linkedin_link', 'https://www.linkedin.com')
-        me_picture = request.FILES.get('me_picture', None)
-        accent_color = request.POST.get('accent_color', '#000000')
-        home_picture = request.FILES.get('home_picture', None)
-        personal_quotes = request.POST.get('personal_quotes', 'Default Quote')
-        about_me = request.POST.get('about_me', 'Default About Me')
-        github_link = request.POST.get('github_link', 'https://github.com')
-        cv_pdf = request.FILES.get('cv_pdf', None)
-
-        portfolio = Portfolio(
-            user_id=user,
-            name=name,
-            role=role,
-            linkedin_link=linkedin_link,
-            me_picture=me_picture,
-            accent_color=accent_color,
-            home_picture=home_picture,
-            personal_quotes=personal_quotes,
-            about_me=about_me,
-            github_link=github_link,
-            cv_pdf=cv_pdf
-        )
-        portfolio.save()
-        success_message = "Portfolio created successfully!"
-        return render(request, 'cms/index.html', {
-            'success_message': success_message,
-            'name': name,
-            'role': role,
-            'linkedin_link': linkedin_link,
-            'accent_color': accent_color,
-            'personal_quotes': personal_quotes,
-            'about_me': about_me,
-            'github_link': github_link,
-            'cv_pdf': cv_pdf,
-            'portfolio': portfolio
-        })
-
-    return render(request, 'cms/index.html')
+        form = PortfolioForm(request.POST, request.FILES)
+        if form.is_valid():
+            portfolio = form.save(commit=False)
+            portfolio.user_id = request.user
+            portfolio.save()
+            return redirect('view_portfolio', portfolio_id=portfolio.id)
+    else:
+        form = PortfolioForm()
+    return render(request, 'cms/index.html', {'form': form})
 
 def view_portfolio(request, portfolio_id):
     portfolio = get_object_or_404(Portfolio, id=portfolio_id)
@@ -76,7 +40,7 @@ def edit_portfolio(request, portfolio_id):
         form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
         if form.is_valid():
             form.save()
-            return redirect('view_portfolio', username=portfolio.user_id.username)
+            return redirect('view_portfolio', portfolio_id=portfolio.id)
     else:
         form = PortfolioForm(instance=portfolio)
     return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
@@ -84,11 +48,31 @@ def edit_portfolio(request, portfolio_id):
 def add_skill(request, portfolio_id):
     portfolio = get_object_or_404(Portfolio, id=portfolio_id)
     if request.method == 'POST':
-        skill_name = request.POST['skill_name']
-        skill_description = request.POST['skill_description']
-        skill = Skills(portfolio=portfolio, skill_name=skill_name, skill_description=skill_description)
+        skill_id = request.POST.get('skill_id')
+        if skill_id:
+            skill = get_object_or_404(Skills, id=skill_id, portfolio=portfolio)
+            skill.skill_name = request.POST['skill_name']
+            skill.skill_description = request.POST['skill_description']
+        else:
+            skill = Skills(portfolio=portfolio, skill_name=request.POST['skill_name'], skill_description=request.POST['skill_description'])
         skill.save()
         return redirect('edit_portfolio', portfolio_id=portfolio.id)
+
+def delete_skill(request, skill_id):
+    skill = get_object_or_404(Skills, id=skill_id)
+    portfolio_id = skill.portfolio.id
+    skill.delete()
+    return redirect('edit_portfolio', portfolio_id=portfolio_id)
+
+def edit_skill(request, skill_id):
+    skill = get_object_or_404(Skills, id=skill_id)
+    portfolio_id = skill.portfolio.id
+    if request.method == 'POST':
+        skill.skill_name = request.POST['skill_name']
+        skill.skill_description = request.POST['skill_description']
+        skill.save()
+        return redirect('edit_portfolio', portfolio_id=portfolio_id)
+    return render(request, 'cms/edit_skill.html', {'skill': skill})
 
 def user_list(request):
     users = User.objects.all()
