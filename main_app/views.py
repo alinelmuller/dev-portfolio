@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.utils.datastructures import MultiValueDictKeyError
 
 from .models import Portfolio, Skills, User
 from .forms import PortfolioForm, SkillsForm, UserForm
@@ -19,21 +20,25 @@ def portfolio_index(request):
 
 def create_portfolio(request):
     if request.method == 'POST':
-        user = User.objects.get(id=request.POST['user_id'])
-        name = request.POST['name']  
-        role = request.POST['role']
-        linkedin_link = request.POST['linkedin_link']
-        me_picture = request.FILES['me_picture']
-        accent_color = request.POST['accent_color']
-        home_picture = request.FILES['home_picture']
-        personal_quotes = request.POST['personal_quotes']
-        about_me = request.POST['about_me']
-        github_link = request.POST['github_link']
-        cv_pdf = request.FILES['cv_pdf']
+        try:
+            user = User.objects.get(id=request.POST.get('profile_id', request.user.id))
+        except MultiValueDictKeyError:
+            return HttpResponse("Profile ID is missing", status=400)
+        
+        name = request.POST.get('name', 'Default Name')
+        role = request.POST.get('role', 'Default Role')
+        linkedin_link = request.POST.get('linkedin_link', 'https://www.linkedin.com')
+        me_picture = request.FILES.get('me_picture', None)
+        accent_color = request.POST.get('accent_color', '#000000')
+        home_picture = request.FILES.get('home_picture', None)
+        personal_quotes = request.POST.get('personal_quotes', 'Default Quote')
+        about_me = request.POST.get('about_me', 'Default About Me')
+        github_link = request.POST.get('github_link', 'https://github.com')
+        cv_pdf = request.FILES.get('cv_pdf', None)
 
         portfolio = Portfolio(
             user_id=user,
-            name=name,  
+            name=name,
             role=role,
             linkedin_link=linkedin_link,
             me_picture=me_picture,
@@ -118,7 +123,20 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('create_portfolio')  
+                # Check if the user already has a portfolio
+                if not Portfolio.objects.filter(user_id=user).exists():
+                    # Create a default portfolio for the user
+                    Portfolio.objects.create(
+                        user_id=user,
+                        name='Default Name',
+                        role='Default Role',
+                        linkedin_link='https://www.linkedin.com',
+                        accent_color='#000000',
+                        personal_quotes='Default Quote',
+                        about_me='Default About Me',
+                        github_link='https://github.com'
+                    )
+                return redirect('create_portfolio')
     else:
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
