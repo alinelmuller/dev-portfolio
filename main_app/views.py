@@ -76,7 +76,7 @@ def edit_portfolio(request, portfolio_id):
         form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
         if form.is_valid():
             form.save()
-            return redirect('view_portfolio', portfolio_id=portfolio.id)
+            return redirect('view_portfolio', username=portfolio.user_id.username)
     else:
         form = PortfolioForm(instance=portfolio)
     return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
@@ -99,7 +99,7 @@ def create_user(request):
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             user_form.save()
-            return redirect('user_list')  # Change 'user_list' to your desired redirect URL
+            return redirect('user_list')  # Ensure this URL exists in your project
     else:
         user_form = UserForm()
     return render(request, 'users/create.html', {'form': user_form})

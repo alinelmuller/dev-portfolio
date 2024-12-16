@@ -230,12 +230,16 @@
                 <p>Your personalized portfolio manager</p>
             </section>
     
-            {% if portfolio %}
+
+
             <section class="portfolio-link">
-                <h2>Portfolio Link</h2>
-                <p><a href="{{ portfolio.get_portfolio_link }}">http://portfolio.dev/me/{{ portfolio.user_id.username|slugify }}</a></p>
+                <h2>View Your Portfolio</h2>
+    {% if portfolio %}
+        <a href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a>
+    {% else %}
+        <p>You do not have a portfolio yet.</p>
+    {% endif %}
             </section>
-            {% endif %}
     
             <section class="section">
                 <form method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}?profile_id={{ user.id }}{% else %}{% url 'create_portfolio' %}?profile_id={{ user.id }}{% endif %}">

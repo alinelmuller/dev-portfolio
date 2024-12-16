@@ -12,7 +12,7 @@
         --primary-color: #{{ portfolio.accent_color }};
     }
     .user {
-        background-image: url('{{ portfolio.home_picture.url }}');
+        background-image: url("{% if portfolio.home_picture %}{{ portfolio.home_picture.url }}{% else %}{% static 'home_pictures/home_picture.jpeg' %}{% endif %}");
     }
 </style>
 <body class="accent">
@@ -45,11 +45,15 @@
     </section>
 
     <section id="about" class="about">
-        <img src="{{ portfolio.me_picture.url }}" alt="{{ portfolio.name }}">
+        <img src="{% if portfolio.me_picture %}{{ portfolio.me_picture.url }}{% else %}{% static 'me_pictures/me.jpeg' %}{% endif %}" alt="{{ portfolio.name }}">
         <div>
             <h2>About Me</h2>
             <p>I am {{ portfolio.name }} a {{ portfolio.role }} {{ portfolio.personal_quotes }}</p>
-            <button>Download CV</button>
+            {% if portfolio.cv_pdf %}
+                <a href="{{ portfolio.cv_pdf.url }}" download><button>Download CV</button></a>
+            {% else %}
+                <button disabled>No CV Available</button>
+            {% endif %}
         </div>
     </section>
 
@@ -67,6 +71,13 @@
             {% endfor %}
         </div>
     </section>
+
+    {% if portfolio %}
+    <section class="portfolio-link">
+        <h2>Portfolio Link</h2>
+        <p><a href="{{ portfolio_link }}">http://127.0.0.1:8000/me/{{ portfolio.user_id.username|slugify }}</a></p>
+    </section>
+    {% endif %}
 
     <section id="contact" class="contact">
         <h2>Let's Chat!</h2>
