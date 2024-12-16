@@ -3,16 +3,16 @@ from django.contrib.auth.models import User
 
 class Portfolio(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100) 
-    role = models.CharField(max_length=100)
-    linkedin_link = models.URLField(max_length=200)
-    me_picture = models.ImageField(upload_to='me_pictures/')
-    accent_color = models.CharField(max_length=7)  # Hexadecimal color
-    home_picture = models.ImageField(upload_to='home_pictures/')
-    personal_quotes = models.CharField(max_length=250)
-    about_me = models.TextField(blank=True)
-    github_link = models.URLField(max_length=200, blank=True)
-    cv_pdf = models.FileField(upload_to='cvs/', blank=True)
+    name = models.CharField(max_length=100, default='Default Name') 
+    role = models.CharField(max_length=100, default='Default Role')
+    linkedin_link = models.URLField(max_length=200, default='https://www.linkedin.com')
+    me_picture = models.ImageField(upload_to='me_pictures/', blank=True, null=True)
+    accent_color = models.CharField(max_length=7, default='#000000')  # Hexadecimal color
+    home_picture = models.ImageField(upload_to='home_pictures/', blank=True, null=True)
+    personal_quotes = models.CharField(max_length=250, default='Default Quote')
+    about_me = models.TextField(blank=True, default='Default About Me')
+    github_link = models.URLField(max_length=200, blank=True, default='https://github.com')
+    cv_pdf = models.FileField(upload_to='cvs/', blank=True, null=True)
 
     def edit_portfolio(self, role=None, linkedin_link=None, me_picture=None, accent_color=None, home_picture=None, personal_quotes=None):
         if role is not None:

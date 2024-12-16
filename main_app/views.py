@@ -22,7 +22,9 @@ def create_portfolio(request):
     if request.method == 'POST':
         form = PortfolioForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            portfolio = form.save(commit=False)
+            portfolio.user_id = request.user
+            portfolio.save()
             return redirect('portfolio_index')
     else:
         form = PortfolioForm()
@@ -38,7 +40,7 @@ def edit_portfolio(request, portfolio_id):
         form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
         if form.is_valid():
             form.save()
-            return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
+            return redirect('portfolio_index')
     else:
         form = PortfolioForm(instance=portfolio)
     return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
@@ -106,19 +108,19 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 # Check if the user already has a portfolio
-                if not Portfolio.objects.filter(user_id=user).exists():
-                    # Create a default portfolio for the user
-                    Portfolio.objects.create(
-                        user_id=user,
-                        name='Default Name',
-                        role='Default Role',
-                        linkedin_link='https://www.linkedin.com',
-                        accent_color='#000000',
-                        personal_quotes='Default Quote',
-                        about_me='Default About Me',
-                        github_link='https://github.com'
-                    )
-                return redirect('create_portfolio')
+                portfolio, created = Portfolio.objects.get_or_create(
+                    user_id=user,
+                    defaults={
+                        'name': 'Default Name',
+                        'role': 'Default Role',
+                        'linkedin_link': 'https://www.linkedin.com',
+                        'accent_color': '#000000',
+                        'personal_quotes': 'Default Quote',
+                        'about_me': 'Default About Me',
+                        'github_link': 'https://github.com'
+                    }
+                )
+                return redirect('edit_portfolio', portfolio_id=portfolio.id)
     else:
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
