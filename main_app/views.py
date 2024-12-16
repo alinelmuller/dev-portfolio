@@ -49,6 +49,13 @@ def edit_portfolio(request, portfolio_id):
         form = PortfolioForm(instance=portfolio)
     return render(request, 'cms/index.html', {'form': form, 'portfolio': portfolio})
 
+def delete_portfolio(request, portfolio_id):
+    portfolio = get_object_or_404(Portfolio, id=portfolio_id)
+    user = portfolio.user_id
+    portfolio.delete()
+    user.delete()
+    return redirect('portfolio_index')
+
 def add_skill(request, portfolio_id):
     portfolio = get_object_or_404(Portfolio, id=portfolio_id)
     if request.method == 'POST':

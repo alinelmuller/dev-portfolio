@@ -219,8 +219,7 @@
                 <ul>
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'portfolio_index' %}">Portfolios</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'login_user' %}">Logout</a></li>
+                    <li><a href="{% url 'logout_user' %}">Logout</a></li>
                 </ul>
             </nav>
         </header>
@@ -348,7 +347,13 @@
                     </div>
                 </form>
             </section>
-    
+            <section class="section">
+                <h3>Delete Portfolio</h3>
+                <form method="post" action="{% url 'delete_portfolio' portfolio.id %}" onsubmit="return confirmDelete()">
+                    {% csrf_token %}
+                    <button type="submit" class="delete">Delete Portfolio</button>
+                </form>
+            </section>
             <section class="cms-footer">
                 <p>© 2024 DevPortfolio. All rights reserved.</p>
             </section>
@@ -373,6 +378,10 @@
                 input.value = 'true';
                 form.appendChild(input);
                 form.submit();
+            }
+
+            function confirmDelete() {
+                return confirm('Are you sure you want to delete this portfolio? This action cannot be undone.');
             }
 
             function enableEdit(button) {

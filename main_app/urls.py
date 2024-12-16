@@ -12,6 +12,7 @@ urlpatterns = [
     path('cms/<int:portfolio_id>/add_skill/', views.add_skill, name='add_skill'),
     path('delete_skill/<int:skill_id>/', views.delete_skill, name='delete_skill'),
     path('edit_skill/<int:skill_id>/', views.edit_skill, name='edit_skill'),
+    path('delete_portfolio/<int:portfolio_id>/', views.delete_portfolio, name='delete_portfolio'),
     path('users/login/', views.login_user, name='login_user'),
     path('users/register/', views.register_user, name='register_user'),
     path('users/logout/', views.logout_user, name='logout_user'),
