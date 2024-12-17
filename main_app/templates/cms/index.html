@@ -145,7 +145,8 @@
     .cms-footer p {
         margin: 0;
     }
-    .view-portfolio{
+
+    .view-portfolio {
         background-color: var(--primary-color);
         color: white;
         border: none;
@@ -155,7 +156,7 @@
         cursor: pointer;
         transition: background 0.3s;
     }
-   
+
     button.save {
         background-color: var(--primary-color);
         color: white;
@@ -184,6 +185,7 @@
         background-color: var(--primary-color);
         color: white;
     }
+
     button.delete {
         background-color: var(--light-color);
         color: var(--primary-color);
@@ -219,7 +221,7 @@
 
     .form-group textarea {
         width: 100%;
-        height: 200px; /* Increase the height */
+        height: 200px;
         padding: 10px;
         border: 1px solid var(--border-color);
         border-radius: 5px;
@@ -242,12 +244,11 @@
             width: 90%;
         }
     }
-
 </style>
 <body>
     <div class="container">
         <header>
-            <div class="logo">PortfolioDev </div>
+            <div class="logo">PortfolioDev</div>
             <nav>
                 <ul>
                     <li><a href="{% url 'home' %}">Home</a></li>
@@ -256,39 +257,30 @@
                 </ul>
             </nav>
         </header>
-
-
-
-
-
-
         <div class="container cms-main">
             <section class="cms-page-header">
                 <h1>Welcome to DevPortfolio</h1>
                 <p>
                     Your personalized portfolio manager
                     {% if portfolio %}
-                        <a  class="view-portfolio" href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a>
+                        <a class="view-portfolio" href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a>
                     {% else %}
                         <p>You do not have a portfolio yet.</p>
-                    {% endif %}                    
+                    {% endif %}
                 </p>
-            </section>    
+            </section>
             <section class="section">
                 <form id="portfolio-form" method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
                     {% csrf_token %}
                     <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
-                
                     <div class="form-group">
                         <label for="name">Name / Nickname</label>
                         <input id="name" type="text" name="name" placeholder="Name / Nickname" value="{{ portfolio.name }}">
                     </div>
-                
                     <div class="form-group">
                         <label for="role">Role</label>
                         <input id="role" type="text" name="role" placeholder="Role" value="{{ portfolio.role }}">
                     </div>
-
                     <div class="form-group">
                         <label for="github_link">GitHub Link</label>
                         <input id="github_link" type="text" name="github_link" placeholder="GitHub Link" value="{{ portfolio.github_link }}">
@@ -297,7 +289,6 @@
                         <label for="accent_color">Accent Color</label>
                         <input id="accent_color" type="text" name="accent_color" placeholder="Accent color" value="{{ portfolio.accent_color }}">
                     </div>
-                
                     <div class="form-group" id="textareaAbout">
                         <label for="about_me">About Me</label>
                         <textarea id="about_me" name="about_me" placeholder="About Me" rows="10">{{ portfolio.about_me|safe }}</textarea>
@@ -306,20 +297,14 @@
                         <label for="personal_quotes">Personal Quotes</label>
                         <textarea id="personal_quotes" name="personal_quotes" placeholder="Text About Me" rows="10">{{ portfolio.personal_quotes|safe }}</textarea>
                     </div>
-
                     <div class="form-group">
                         <label for="cv_pdf">Upload CV</label>
                         <input id="cv_pdf" type="file" name="cv_pdf" placeholder="Upload CV">
                     </div>
-                
                     <div class="form-group">
                         <label for="linkedin_link">LinkedIn Link</label>
                         <input id="linkedin_link" type="text" name="linkedin_link" placeholder="LinkedIn Link" value="{{ portfolio.linkedin_link }}">
                     </div>
-                
-                    
-
-                
                     <div class="form-group">
                         <label for="home_picture">Image for Home</label>
                         <input id="home_picture" type="file" name="home_picture" placeholder="Image for Home">
@@ -328,7 +313,6 @@
                             <button type="button" class="delete" onclick="deleteImage('home_picture')">Delete</button>
                         {% endif %}
                     </div>
-                
                     <div class="form-group">
                         <label for="me_picture">Profile Picture</label>
                         <input id="me_picture" type="file" name="me_picture">
@@ -348,8 +332,7 @@
                     <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
                     <input type="hidden" name="skill_id" id="skill_id">
                     <input type="text" name="skill_name" id="skill_name" placeholder="Skill Name">
-                    
-                    <textarea name="skill_description" id="skill_description" placeholder="Info About It"  rows="4"></textarea>
+                    <textarea name="skill_description" id="skill_description" placeholder="Info About It" rows="4"></textarea>
                     <button type="submit" class="save">Save</button>
                 </form>
                 </div>

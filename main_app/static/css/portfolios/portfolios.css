@@ -1,381 +1,386 @@
 :root {
-  --primary-color: #333;
-  --secondary-color: #111135;
-  --light-color: #f3f4f6;
-  --dark-color: #1e1e2f;
+    --primary-color: #333;
+    --secondary-color: #111135;
+    --light-color: #f3f4f6;
+    --dark-color: #1e1e2f;
 }
 
 body {
-  margin: 0;
-  font-family: Montserrat, Arial, sans-serif;
-  font-size: 12px;
-  color: var(--secondary-color);
-  background: var(--light-color);
-  padding: 0;
+    margin: 0;
+    font-family: Montserrat, Arial, sans-serif;
+    font-size: 12px;
+    color: var(--secondary-color);
+    background: var(--light-color);
+    padding: 0;
 }
 
 .container {
-  max-width: 900px;
-  margin: auto;
-  padding: 0;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: white;
-  overflow: hidden;
+    max-width: 900px;
+    margin: auto;
+    padding: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: white;
+    overflow: hidden;
 }
 
 .login-box {
-  width: 280px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    width: 280px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background: var(--dark-color);
-  color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--dark-color);
+    color: white;
 }
 
 header .logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: var(--primary-color);
-  padding-left: 30px;
-  display: flex;
-  align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
 }
 
-.logo a{
-  color: white;
-  font-size: 14px;
-
+.logo a {
+    color: white;
+    font-size: 14px;
 }
 
 header .links-dev {
-  margin-left: 20px;
+    margin-left: 20px;
 }
 
 header .links-dev a {
-  text-decoration: none;
-  color: var(--primary-color);
-  margin: 0 5px;
-  font-size: 11px;
+    text-decoration: none;
+    color: var(--primary-color);
+    margin: 0 5px;
+    font-size: 11px;
 }
 
 header .links-dev a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li {
-  margin: 0 15px;
+    margin: 0 15px;
 }
 
 nav ul li a {
-  text-decoration: none;
-  color: white;
+    text-decoration: none;
+    color: white;
 }
 
 .user {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--light-color);
-  color: white;
-  background-image: url('{{ portfolio.home_picture.url }}');
-  background-size: cover;
-  background-position: center;
-  min-height: 500px;
-  width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--light-color);
+    color: white;
+    background-image: url('{{ portfolio.home_picture.url }}');
+    background-size: cover;
+    background-position: center;
+    min-height: 500px;
+    width: 100%;
 }
 
 .user-info {
-  color: white;
-  padding: 50px;
-  background: rgba(0, 0, 0, 0.8);
-  text-align: center;
-}
-.user-info h1 {
-  font-size: 36px;
-}
-.user-info .name {
-  font-size: 16px;
-}
-.user-info a {
-  margin-top: 20px;
-  padding: 8px 16px;
-  border: none;
-  background: var(--primary-color);
-  color: white;
-  cursor: pointer;
-  display: inline-block;
-  text-decoration: none;
-  font-size: 16px;
+    color: white;
+    padding: 50px;
+    background: rgba(0, 0, 0, 0.8);
+    text-align: center;
 }
 
+.user-info h1 {
+    font-size: 36px;
+}
+
+.user-info .name {
+    font-size: 16px;
+}
+
+.user-info a {
+    margin-top: 20px;
+    padding: 8px 16px;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 16px;
+}
 
 .about-me {
-  display: flex;
-  justify-content: center;
-  padding: 50px;
-  background: white;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    background: white;
 }
+
 .about-me h1 {
-  font-size: 18px;
-  letter-spacing: 3;
-  text-transform: uppercase;
-  font-weight: normal;
-  margin:0px;
+    font-size: 18px;
+    letter-spacing: 3;
+    text-transform: uppercase;
+    font-weight: normal;
+    margin: 0px;
 }
+
 .about-me h2 {
-  font-size: 26px;
-  margin:5px 0 5px 0;
+    font-size: 26px;
+    margin: 5px 0 5px 0;
 }
+
 .about-me h2 span {
-  color:var(--primary-color);
+    color: var(--primary-color);
 }
+
 .about-me h3 {
-  font-size: 16px;
-  letter-spacing: 3;
-  text-transform: uppercase;
-  font-weight: lighter;
-  margin:0px;
+    font-size: 16px;
+    letter-spacing: 3;
+    text-transform: uppercase;
+    font-weight: lighter;
+    margin: 0px;
 }
 
 .about-me img {
-  max-width: 300px;
-  border-radius: 10px;
-  margin: 10px;
+    max-width: 300px;
+    border-radius: 10px;
+    margin: 10px;
 }
 
 .about-me div {
-  max-width: 500px;
-  margin: 10px;
+    max-width: 500px;
+    margin: 10px;
 }
+
 .about-me button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  border: none;
-  background: var(--primary-color);
-  color: white;
-  cursor: pointer;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
 }
 
 .expertise {
-  padding: 50px;
-  text-align: center;
-  background: var(--light-color);
+    padding: 50px;
+    text-align: center;
+    background: var(--light-color);
 }
 
-.expertise h2{
-  font-size: 18px;
-  letter-spacing: 3;
-  text-transform: uppercase;
-  font-weight: normal;
-  margin:0 0 30px 0;
+.expertise h2 {
+    font-size: 18px;
+    letter-spacing: 3;
+    text-transform: uppercase;
+    font-weight: normal;
+    margin: 0 0 30px 0;
 }
 
 .expertise .cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
 }
 
 .expertise .card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .highlight-box {
-  background-color: var(--primary-color); 
-  color: #fff;
-  text-align: center;
-  padding: 40px;
-  margin:0;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    padding: 40px;
+    margin: 0;
 }
 
 .highlight-box h2 {
-  font-size: 18px;
-  letter-spacing: 3;
-  text-transform: uppercase;
-  margin:0 0 30px 0;
+    font-size: 18px;
+    letter-spacing: 3;
+    text-transform: uppercase;
+    margin: 0 0 30px 0;
 }
 
 .highlight-box p {
-  font-size: 16px;
-  margin-bottom: 20px;
+    font-size: 16px;
+    margin-bottom: 20px;
 }
 
 .highlight-btn {
-  display: inline-block;
-  background-color: #ffffff;
-  color: var(--primary-color, #0077B5);
-  padding: 0.8rem 1.5rem;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block;
+    background-color: #ffffff;
+    color: var(--primary-color, #0077B5);
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .highlight-btn i {
-  margin-right: 8px;
+    margin-right: 8px;
 }
 
 .contact {
-  padding: 50px;
-  text-align: center;
-  background: var(--light-color);
+    padding: 50px;
+    text-align: center;
+    background: var(--light-color);
 }
 
 .contact form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .contact form input,
 .contact form textarea {
-  margin: 10px 0;
-  padding: 10px;
-  width: 100%;
-  max-width: 400px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 .contact form button {
-  padding: 10px 20px;
-  border: none;
-  background: var(--primary-color);
-  color: white;
-  cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
 }
 
-/* Portfolio Showcase */
 .portfolio-showcase {
-  background: #f3f4f6;
-  text-align: center;
+    background: #f3f4f6;
+    text-align: center;
 }
 
 .portfolio-showcase a {
-  text-decoration: none;
-  color: var(--primary-color);
-  font-size: 1.2em;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-size: 1.2em;
 }
 
 .portfolio-showcase a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 footer {
-  text-align: center;
-  padding: 20px;
-  background: var(--dark-color);
-  color: white;
+    text-align: center;
+    padding: 20px;
+    background: var(--dark-color);
+    color: white;
 }
 
 @media (max-width: 768px) {
-  .about {
-    flex-direction: column;
-  }
+    .about {
+        flex-direction: column;
+    }
 
-  nav ul {
-    flex-direction: column;
-    align-items: center;
-  }
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 header h1 {
-  margin: 0;
+    margin: 0;
 }
 
 header .logout {
-  background: #ff007a;
-  color: white;
-  padding: 5px 10px;
-  text-decoration: none;
-  border-radius: 5px;
+    background: #ff007a;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
 header .logout:hover {
-  background: #e6006e;
+    background: #e6006e;
 }
 
 .section {
-  padding: 20px;
-  border-bottom: 1px solid #ddd;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
 }
 
 .section h2 {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 form textarea {
-  grid-column: span 2;
+    grid-column: span 2;
 }
 
 form .actions {
-  grid-column: span 2;
-  text-align: right;
+    grid-column: span 2;
+    text-align: right;
 }
 
 form .actions button {
-  padding: 5px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 form .actions button:first-child {
-  background: #ddd;
+    background: #ddd;
 }
 
 form .actions button:last-child {
-  background: #1e1e2f;
-  color: white;
+    background: #1e1e2f;
+    color: white;
 }
 
 .skills {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
 }
 
 .skill {
-  background: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .skill .actions {
-  text-align: right;
+    text-align: right;
 }
 
 
