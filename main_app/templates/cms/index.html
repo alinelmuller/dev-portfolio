@@ -1,14 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Portfolio</title>
     <link rel="stylesheet" href="{% static 'css/portfolios/portfolios.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
 </head>
 <style>
-    /* General Reset */
     * {
         margin: 0;
         padding: 0;
@@ -145,7 +145,17 @@
     .cms-footer p {
         margin: 0;
     }
-
+    .view-portfolio{
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        text-decoration: none;
+        padding: 3px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+   
     button.save {
         background-color: var(--primary-color);
         color: white;
@@ -236,9 +246,9 @@
 </style>
 <body>
     <div class="container">
-        <header class="cms-header">
-            <div class="cms-header-logo">DevPortfolio</div>
-            <nav class="cms-nav">
+        <header>
+            <div class="logo">PortfolioDev </div>
+            <nav>
                 <ul>
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'portfolio_index' %}">Portfolios</a></li>
@@ -246,23 +256,24 @@
                 </ul>
             </nav>
         </header>
+
+
+
+
+
+
         <div class="container cms-main">
             <section class="cms-page-header">
                 <h1>Welcome to DevPortfolio</h1>
-                <p>Your personalized portfolio manager</p>
-            </section>
-    
-
-
-            <section class="portfolio-link">
-                <h2>View Your Portfolio</h2>
-    {% if portfolio %}
-        <a href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a>
-    {% else %}
-        <p>You do not have a portfolio yet.</p>
-    {% endif %}
-            </section>
-    
+                <p>
+                    Your personalized portfolio manager
+                    {% if portfolio %}
+                        <a  class="view-portfolio" href="{% url 'view_portfolio' portfolio.id %}">View Portfolio</a>
+                    {% else %}
+                        <p>You do not have a portfolio yet.</p>
+                    {% endif %}                    
+                </p>
+            </section>    
             <section class="section">
                 <form id="portfolio-form" method="post" enctype="multipart/form-data" action="{% if portfolio %}{% url 'edit_portfolio' portfolio.id %}{% else %}{% url 'create_portfolio' %}{% endif %}">
                     {% csrf_token %}
@@ -331,14 +342,17 @@
             <section class="section">
                 <h3>Expertises</h3>
                 {% if portfolio %}
+                <div class="form-group">
                 <form method="post" enctype="multipart/form-data" action="{% url 'add_skill' portfolio.id %}" id="skill-form" {% if portfolio.skills_set.count >= 6 %}style="display:none;"{% endif %}>
                     {% csrf_token %}
                     <input type="hidden" name="portfolio_id" value="{{ portfolio.id }}">
                     <input type="hidden" name="skill_id" id="skill_id">
                     <input type="text" name="skill_name" id="skill_name" placeholder="Skill Name">
-                    <textarea name="skill_description" id="skill_description" placeholder="Info About It"></textarea>
+                    
+                    <textarea name="skill_description" id="skill_description" placeholder="Info About It"  rows="4"></textarea>
                     <button type="submit" class="save">Save</button>
                 </form>
+                </div>
                 {% else %}
                 <p>Please create a portfolio first.</p>
                 {% endif %}

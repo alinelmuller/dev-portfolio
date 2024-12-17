@@ -25,9 +25,9 @@
 <div class="container">
     <header>
         <div class="logo">
-            PortfolioDev - &nbsp;
+            PortfolioDev
             {% if user.is_authenticated %}
-                <a href="{% url 'edit_portfolio' portfolio.id %}">Edit my Portfolio</a>
+                &nbsp; - &nbsp;<a href="{% url 'edit_portfolio' portfolio.id %}">Edit my Portfolio</a>
             {% endif %}
         </div>
         <div class="links-dev">
@@ -39,10 +39,10 @@
                 <li><a href="#about">About Me</a></li>
                 <li><a href="#expertise">Expertises</a></li>
                 {% if portfolio.linkedin_link %}    
-                <li><a href="#portfolio">Linkedin</a></li>
+                <li><a href="{{ portfolio.linkedin_link }}" target="_blank">Linkedin</a></li>
                 {% endif %}
                 {% if portfolio.github_link %}
-                <li><a href="#portfolio">GitHub</a></li>
+                <li><a href="{{ portfolio.github_link }}" target="_blank">GitHub</a></li>
                 {% endif %}
             </ul>
         </nav>
