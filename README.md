@@ -5,19 +5,19 @@ DevPortfolio is a Django-based web application that allows users to create and m
 ![Homepage](screenshots/Home.png)
 
 *Register*
-![Homepage](screenshots/Register.png)
+![Register](screenshots/Register.png)
 
 *Login*
-![Homepage](screenshots/Login.png)
+![Login](screenshots/Login.png)
 
 *CMS to manage Portfolio*
-![Homepage](screenshots/CMS.png)
+![CMS](screenshots/CMS.png)
 
 *Example of a user portfolio*
-![Homepage](screenshots/Portfolio.png)
+![Portfolio](screenshots/Portfolio.png)
 
 *List of Portfolios*
-![Homepage](screenshots/Portfolios.png)
+![Portfolios](screenshots/Portfolios.png)
 
 
 ## Features
