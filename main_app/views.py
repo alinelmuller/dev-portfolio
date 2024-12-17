@@ -94,7 +94,7 @@ def create_user(request):
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             user_form.save()
-            return redirect('user_list')  # Ensure this URL exists in your project
+            return redirect('user_list')  
     else:
         user_form = UserForm()
     return render(request, 'users/create.html', {'form': user_form})
@@ -118,7 +118,6 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                # Check if the user already has a portfolio
                 portfolio, created = Portfolio.objects.get_or_create(
                     user_id=user,
                     defaults={

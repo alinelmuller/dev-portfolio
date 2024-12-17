@@ -339,15 +339,6 @@
                 </div>
             </section>
             <section class="section">
-                <h3>Contact Me</h3>
-                <form>
-                    <input type="email" placeholder="Email" readonly>
-                    <div class="actions">
-                        <button type="submit" class="save" disabled>Save</button>
-                    </div>
-                </form>
-            </section>
-            <section class="section">
                 <h3>Delete Portfolio</h3>
                 <form method="post" action="{% url 'delete_portfolio' portfolio.id %}" onsubmit="return confirmDelete()">
                     {% csrf_token %}

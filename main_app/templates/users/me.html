@@ -39,7 +39,6 @@
                 <li><a href="#about">About Me</a></li>
                 <li><a href="#expertise">Expertise</a></li>
                 <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -47,7 +46,7 @@
         <div class="user-info">
             <h1>I am <span class="name">{{ portfolio.name }}</span> <span class="role">{{ portfolio.role }}</span></h1>
             <p>{{ portfolio.personal_quotes }}</p>
-            <p><a href="{{ portfolio.github_link }}"><i class="fa-brands fa-square-github"></i> Check my projects</a></p>
+            <p><a href="{{ portfolio.github_link }}" target="_blank"><i class="fa-brands fa-square-github"></i> Check my projects</a></p>
         </div>
     </section>
 
@@ -63,27 +62,8 @@
             {% if portfolio.cv_pdf %}
                 <a href="{{ portfolio.cv_pdf.url }}" target=”_blank” download><button><i class="fa-solid fa-download"></i> Download CV</button></a>
             {% endif %}
-            {% if portfolio.linkedin_link %}
-                <a href="{{ portfolio.linkedin_link }}" target=”_blank”><button> LIKEDIN<i class="fa-brands fa-linkedin"></i></button></a>
-            {% endif %}
         </div>
     </section>
-
-    <section id="expertise" class="expertise">
-        <h2>MY EXPERTISEs</h2>
-        <div class="cards">
-            {% for skill in portfolio.skills_set.all %}
-            <div class="card">
-                <h3>{{ skill.skill_name }}</h3>
-                <p>{{ skill.skill_description }}</p>
-                <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
-                    {% csrf_token %}
-                </form>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
     <section id="highlight" class="highlight-box">
       <div class="highlight-content">
           <h2>Let's Connect!</h2>
@@ -98,15 +78,19 @@
       </div>
   </section>
 
-
-    <section id="contact" class="contact">
-        <h2>Let's Chat!</h2>
-        <form method="post">
-            <input type="text" name="name" placeholder="Name">
-            <input type="email" name="email" placeholder="Email">
-            <textarea name="message" placeholder="Message"></textarea>
-            <button type="submit">Send Message</button>
-        </form>
+    <section id="expertise" class="expertise">
+        <h2>MY EXPERTISEs</h2>
+        <div class="cards">
+            {% for skill in portfolio.skills_set.all %}
+            <div class="card">
+                <h3>{{ skill.skill_name }}</h3>
+                <p>{{ skill.skill_description }}</p>
+                <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
+                    {% csrf_token %}
+                </form>
+            </div>
+            {% endfor %}
+        </div>
     </section>
     <footer>
         <p>&copy; 2024 DevPortfolio. All rights reserved.</p>
