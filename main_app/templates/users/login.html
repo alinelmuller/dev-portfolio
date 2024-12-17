@@ -8,74 +8,150 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <style>
-    .container-login {
-        width: 400px;
-        max-width: 400px;
-        padding: 30px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
+            * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container-login h1 {
-        font-size: 24px;
-        font-weight: bold;
-        color: #666;
-        margin-bottom: 10px;
-    }
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(to bottom, #f3f4f6, #e9ecef);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    .container-login form {
-        margin-top: 20px;
-        display: block;
-    }
+        p {
+            margin-bottom: 0 !important;
+        }
 
-    .container-login form input {
-        width: 80%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 14px;
-    }
+        ul {
+            color: grey;
+            font-size: 10px;
+            margin-left: 20px;
+            margin-top: -10px;
+        }
 
-    .container-login form button {
-        width: 100px;
-        padding: 10px;
-        background: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.3s;
-    }
+        ul.errorlist {
+            margin-top: 10px !important;
+            margin-left: 0px !important;
+            margin-bottom: -15px !important;
+        }
+        
+        .container-login {
+            width: 100%;
+            max-width: 450px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px 30px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
 
-    .container-login form button:hover {
-        background: #0056b3;
-    }
+        .container-login h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
 
-    .container-login p {
-        margin: 15px 0 0;
-        font-size: 14px;
-        color: #666;
-        display: block;
-    }
+        .container-login p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px !important;
+        }
 
-    .container-login p a {
-        color: #007bff;
-        text-decoration: none;
-        font-weight: bold;
-    }
+        .container-login form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
 
-    .container-login p a:hover {
-        text-decoration: underline;
-    }
+        .container-login form label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .container-login form input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container-login form input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        .container-login form button {
+            padding: 12px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .container-login form button:hover {
+            background: #0056b3;
+        }
+
+        .container-login .bottom-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .container-login .bottom-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .container-login .bottom-text a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .errorlist {
+            color: red;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .helptext {
+            color: grey;
+            font-size: 10px;
+        }
 </style>
 <body>
     <div class="container-login">
-        <h1>DevPortfolio</h1>
+        <h2>DevPortfolio</h2>
         <p>Please sign in to your account</p>
         <form method="post">
             {% csrf_token %}
@@ -92,7 +168,9 @@
             </div>
             <button type="submit">Sign In</button>
         </form>
-        <p>Don't have an account? <a href="{% url 'register_user' %}">Register here</a></p>
+        <p class="bottom-text">
+            Don't have an account? <a href="{% url 'register_user' %}">Register here</a>
+        </p>
     </div>
 </body>
 </html>
