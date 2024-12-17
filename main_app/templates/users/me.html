@@ -19,6 +19,7 @@
     .user-info .role {
        color: var(--primary-color);
     }
+   
 </style>
 <body class="accent">
 <div class="container">
@@ -83,12 +84,20 @@
         </div>
     </section>
 
-    {% if portfolio %}
-    <section class="portfolio-link">
-        <h2>Portfolio Link</h2>
-        <p><a href="{{ portfolio_link }}">http://127.0.0.1:8000/me/{{ portfolio.user_id.username|slugify }}</a></p>
-    </section>
-    {% endif %}
+    <section id="highlight" class="highlight-box">
+      <div class="highlight-content">
+          <h2>Let's Connect!</h2>
+          <p>Want to collaborate or learn more about my work?<br /> Connect with me on LinkedIn and let's build something great together!</p>
+          {% if portfolio.linkedin_link %}
+              <a href="{{ portfolio.linkedin_link }}" target="_blank" class="highlight-btn">
+                  <i class="fa-brands fa-linkedin"></i> Connect on LinkedIn
+              </a>
+          {% else %}
+              <p>LinkedIn link not provided.</p>
+          {% endif %}
+      </div>
+  </section>
+
 
     <section id="contact" class="contact">
         <h2>Let's Chat!</h2>
