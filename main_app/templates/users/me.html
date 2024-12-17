@@ -19,92 +19,87 @@
     .user-info .role {
        color: var(--primary-color);
     }
-   
 </style>
 <body class="accent">
-<div class="container">
-    <header>
-        <div class="logo">
-            PortfolioDev
-            {% if user.is_authenticated %}
-                &nbsp; - &nbsp;<a href="{% url 'edit_portfolio' portfolio.id %}">Edit my Portfolio</a>
-            {% endif %}
-        </div>
-        <div class="links-dev">
-            
-        </div>
-        <nav>
-            <ul>
-                <li><a href="{% url 'about' %}">Home</a></li>
-                <li><a href="#about">About Me</a></li>
-                <li><a href="#expertise">Expertises</a></li>
-                {% if portfolio.linkedin_link %}    
-                <li><a href="{{ portfolio.linkedin_link }}" target="_blank">Linkedin</a></li>
+    <div class="container">
+        <header>
+            <div class="logo">
+                PortfolioDev
+                {% if user.is_authenticated %}
+                    &nbsp; - &nbsp;<a href="{% url 'edit_portfolio' portfolio.id %}">Edit my Portfolio</a>
                 {% endif %}
-                {% if portfolio.github_link %}
-                <li><a href="{{ portfolio.github_link }}" target="_blank">GitHub</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
-    <section class="user">
-        <div class="user-info">
-            <h1>I am <span class="name">{{ portfolio.name }}</span> <span class="role">{{ portfolio.role }}</span></h1>
-            <p>{{ portfolio.personal_quotes|safe }}</p>
-            <p><a href="{{ portfolio.github_link }}" target="_blank"><i class="fa-brands fa-square-github"></i> Check my projects</a></p>
-        </div>
-    </section>
-
-    <section id="about" class="about-me">
-      {% if portfolio.me_picture %}  
-        <img src="{% if portfolio.me_picture %}{{ portfolio.me_picture.url }}{% else %}{% static 'me_pictures/me.jpeg' %}{% endif %}" alt="{{ portfolio.name }}">
-      {% endif %}
-        <div>
-            <h1>About Me</h1>
-            <h2>Hi there, I’m <span>{{ portfolio.name }}</span></h2>
-            <h3>{{ portfolio.role }}</h3>
-            <p>{{ portfolio.about_me|safe }}</p>
-            {% if portfolio.cv_pdf %}
-                <a href="{{ portfolio.cv_pdf.url }}" target=”_blank” download><button><i class="fa-solid fa-download"></i> Download CV</button></a>
-            {% endif %}
-        </div>
-    </section>
-    <section id="highlight" class="highlight-box">
-      <div class="highlight-content">
-          <h2>Let's Connect!</h2>
-          <p>Want to collaborate or learn more about my work?<br /> Connect with me on LinkedIn and let's build something great together!</p>
-          {% if portfolio.linkedin_link %}
-              <a href="{{ portfolio.linkedin_link }}" target="_blank" class="highlight-btn">
-                  <i class="fa-brands fa-linkedin"></i> Connect on LinkedIn
-              </a>
-          {% else %}
-              <p>LinkedIn link not provided.</p>
-          {% endif %}
-      </div>
-  </section>
-    <section id="expertise" class="expertise">
-        <h2>MY EXPERTISEs</h2>
-        <div class="cards">
-            {% for skill in portfolio.skills_set.all %}
-            <div class="card">
-                <h3>{{ skill.skill_name }}</h3>
-                <p>{{ skill.skill_description }}</p>
-                <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
-                    {% csrf_token %}
-                </form>
             </div>
-            {% endfor %}
+            <nav>
+                <ul>
+                    <li><a href="{% url 'about' %}">Home</a></li>
+                    <li><a href="#about">About Me</a></li>
+                    <li><a href="#expertise">Expertises</a></li>
+                    {% if portfolio.linkedin_link %}    
+                    <li><a href="{{ portfolio.linkedin_link }}" target="_blank">Linkedin</a></li>
+                    {% endif %}
+                    {% if portfolio.github_link %}
+                    <li><a href="{{ portfolio.github_link }}" target="_blank">GitHub</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+        <section class="user">
+            <div class="user-info">
+                <h1>I am <span class="name">{{ portfolio.name }}</span> <span class="role">{{ portfolio.role }}</span></h1>
+                <p>{{ portfolio.personal_quotes|safe }}</p>
+                <p><a href="{{ portfolio.github_link }}" target="_blank"><i class="fa-brands fa-square-github"></i> Check my projects</a></p>
+            </div>
+        </section>
+        <section id="about" class="about-me">
+        {% if portfolio.me_picture %}  
+            <img src="{% if portfolio.me_picture %}{{ portfolio.me_picture.url }}{% else %}{% static 'me_pictures/me.jpeg' %}{% endif %}" alt="{{ portfolio.name }}">
+        {% endif %}
+            <div>
+                <h1>About Me</h1>
+                <h2>Hi there, I’m <span>{{ portfolio.name }}</span></h2>
+                <h3>{{ portfolio.role }}</h3>
+                <p>{{ portfolio.about_me|safe }}</p>
+                {% if portfolio.cv_pdf %}
+                    <a href="{{ portfolio.cv_pdf.url }}" target=”_blank” download><button><i class="fa-solid fa-download"></i> Download CV</button></a>
+                {% endif %}
+            </div>
+        </section>
+        <section id="highlight" class="highlight-box">
+        <div class="highlight-content">
+            <h2>Let's Connect!</h2>
+            <p>Want to collaborate or learn more about my work?<br /> Connect with me on LinkedIn and let's build something great together!</p>
+            {% if portfolio.linkedin_link %}
+                <a href="{{ portfolio.linkedin_link }}" target="_blank" class="highlight-btn">
+                    <i class="fa-brands fa-linkedin"></i> Connect on LinkedIn
+                </a>
+            {% else %}
+                <p>LinkedIn link not provided.</p>
+            {% endif %}
         </div>
     </section>
-    <section class="portfolio-showcase">
-        <div class="container">
-            <h3>Portfolios</h3>
-            <p>Explore others portfolios: <a href="{% url 'portfolio_index' %}" class="portfolio-link">http://portfolio.dev/portfolios</a></p>
-        </div>
-    </section>
-    <footer>
-        <p>&copy; 2024 DevPortfolio. All rights reserved.</p>
-    </footer>
-</div>
+        <section id="expertise" class="expertise">
+            <h2>MY EXPERTISEs</h2>
+            <div class="cards">
+                {% for skill in portfolio.skills_set.all %}
+                <div class="card">
+                    <h3>{{ skill.skill_name }}</h3>
+                    <p>{{ skill.skill_description }}</p>
+                    <form method="post" action="{% url 'delete_skill' skill.id %}" style="display:inline;">
+                        {% csrf_token %}
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        <section class="portfolio-showcase">
+            <div class="container">
+                <h3>Portfolios</h3>
+                <p>Explore others portfolios: <a href="{% url 'portfolio_index' %}" class="portfolio-link">http://portfolio.dev/portfolios</a></p>
+            </div>
+        </section>
+        <footer>
+            <p>&copy; 2024 DevPortfolio. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>
