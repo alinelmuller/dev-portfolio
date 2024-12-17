@@ -37,15 +37,20 @@
             <ul>
                 <li><a href="{% url 'about' %}">Home</a></li>
                 <li><a href="#about">About Me</a></li>
-                <li><a href="#expertise">Expertise</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#expertise">Expertises</a></li>
+                {% if portfolio.linkedin_link %}    
+                <li><a href="#portfolio">Linkedin</a></li>
+                {% endif %}
+                {% if portfolio.github_link %}
+                <li><a href="#portfolio">GitHub</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
     <section class="user">
         <div class="user-info">
             <h1>I am <span class="name">{{ portfolio.name }}</span> <span class="role">{{ portfolio.role }}</span></h1>
-            <p>{{ portfolio.personal_quotes }}</p>
+            <p>{{ portfolio.personal_quotes|safe }}</p>
             <p><a href="{{ portfolio.github_link }}" target="_blank"><i class="fa-brands fa-square-github"></i> Check my projects</a></p>
         </div>
     </section>
@@ -58,7 +63,7 @@
             <h1>About Me</h1>
             <h2>Hi there, I’m <span>{{ portfolio.name }}</span></h2>
             <h3>{{ portfolio.role }}</h3>
-            <p>{{ portfolio.about_me }}</p>
+            <p>{{ portfolio.about_me|safe }}</p>
             {% if portfolio.cv_pdf %}
                 <a href="{{ portfolio.cv_pdf.url }}" target=”_blank” download><button><i class="fa-solid fa-download"></i> Download CV</button></a>
             {% endif %}
@@ -90,6 +95,13 @@
                 </form>
             </div>
             {% endfor %}
+        </div>
+    </section>
+    <section class="portfolio-showcase">
+        <div class="container">
+            <h3>Portfolios</h3>
+            <p>Explore others portfolios: <a href="{% url 'portfolio_index' %}" class="portfolio-link">http://portfolio.dev/portfolios</a></p>
+            
         </div>
     </section>
     <footer>

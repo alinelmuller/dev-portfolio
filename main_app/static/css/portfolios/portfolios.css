@@ -271,6 +271,22 @@ nav ul li a {
   cursor: pointer;
 }
 
+/* Portfolio Showcase */
+.portfolio-showcase {
+  background: #f3f4f6;
+  text-align: center;
+}
+
+.portfolio-showcase a {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-size: 1.2em;
+}
+
+.portfolio-showcase a:hover {
+  text-decoration: underline;
+}
+
 footer {
   text-align: center;
   padding: 20px;
