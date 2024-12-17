@@ -1,13 +1,13 @@
 :root {
-  --primary-color: #000;
-  --secondary-color: #333;
+  --primary-color: #333;
+  --secondary-color: #111135;
   --light-color: #f3f4f6;
   --dark-color: #1e1e2f;
 }
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Montserrat, Arial, sans-serif;
   font-size: 12px;
   color: var(--secondary-color);
   background: var(--light-color);
@@ -49,6 +49,12 @@ header .logo {
   align-items: center;
 }
 
+.logo a{
+  color: white;
+  font-size: 14px;
+
+}
+
 header .links-dev {
   margin-left: 20px;
 }
@@ -84,7 +90,7 @@ nav ul li a {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--secondary-color);
+  background: var(--light-color);
   color: white;
   background-image: url('{{ portfolio.home_picture.url }}');
   background-size: cover;
@@ -94,39 +100,69 @@ nav ul li a {
 }
 
 .user-info {
-  color: var(--primary-color);
+  color: white;
   padding: 50px;
   background: rgba(0, 0, 0, 0.8);
-  width: 50%;
   text-align: center;
+}
+.user-info h1 {
+  font-size: 36px;
+}
+.user-info .name {
+  font-size: 16px;
 }
 .user-info a {
   margin-top: 20px;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border: none;
   background: var(--primary-color);
   color: white;
   cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 16px;
 }
 
-.about {
+
+.about-me {
   display: flex;
   justify-content: center;
   padding: 50px;
-  background: var(--light-color);
+  background: white;
+}
+.about-me h1 {
+  font-size: 18px;
+  letter-spacing: 3;
+  text-transform: uppercase;
+  font-weight: normal;
+  margin:0px;
+}
+.about-me h2 {
+  font-size: 26px;
+  margin:5px 0 5px 0;
+}
+.about-me h2 span {
+  color:var(--primary-color);
+}
+.about-me h3 {
+  font-size: 16px;
+  letter-spacing: 3;
+  text-transform: uppercase;
+  font-weight: lighter;
+  margin:0px;
 }
 
-.about img {
+.about-me img {
   max-width: 300px;
   border-radius: 10px;
   margin: 10px;
 }
 
-.about div {
+.about-me div {
   max-width: 500px;
   margin: 10px;
 }
-.about button {
+.about-me button {
   margin-top: 20px;
   padding: 10px 20px;
   border: none;
@@ -139,6 +175,14 @@ nav ul li a {
   padding: 50px;
   text-align: center;
   background: var(--light-color);
+}
+
+.expertise h2{
+  font-size: 18px;
+  letter-spacing: 3;
+  text-transform: uppercase;
+  font-weight: normal;
+  margin:0 0 30px 0;
 }
 
 .expertise .cards {

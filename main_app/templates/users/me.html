@@ -6,26 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Portfolio</title>
     <link rel="stylesheet" href="{% static 'css/portfolios/portfolios.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/04790ce07e.js" crossorigin="anonymous"></script>
 </head>
 <style>
     :root {
-        --primary-color: #{{ portfolio.accent_color }};
+        --primary-color: {{ portfolio.accent_color }};
     }
     .user {
         background-image: url("{% if portfolio.home_picture %}{{ portfolio.home_picture.url }}{% else %}{% static 'home_pictures/home_picture.jpeg' %}{% endif %}");
+    }
+    .user-info .role {
+       color: var(--primary-color);
     }
 </style>
 <body class="accent">
 <div class="container">
     <header>
         <div class="logo">
-            DevPortfolio
+            PortfolioDev - &nbsp;
+            {% if user.is_authenticated %}
+                <a href="{% url 'edit_portfolio' portfolio.id %}">Edit my Portfolio</a>
+            {% endif %}
         </div>
         <div class="links-dev">
-            {% if user.is_authenticated %}
-                <a href="{% url 'edit_portfolio' portfolio.id %}">Edit</a>
-            {% endif %}
-            <a href="{% url 'login_user' %}">Create</a>
+            
         </div>
         <nav>
             <ul>
@@ -39,28 +44,32 @@
     </header>
     <section class="user">
         <div class="user-info">
-            <h1>I am <span>{{ portfolio.name }}</span><span>{{ portfolio.role }}</span></h1>
+            <h1>I am <span class="name">{{ portfolio.name }}</span> <span class="role">{{ portfolio.role }}</span></h1>
             <p>{{ portfolio.personal_quotes }}</p>
-            <p>LinkedIn: <a href="{{ portfolio.linkedin_link }}">{{ portfolio.linkedin_link }}</a></p>
-            <p>Portfolio Link: <a href="{{ portfolio_link }}">{{ portfolio_link }}</a></p>
+            <p><a href="{{ portfolio.github_link }}"><i class="fa-brands fa-square-github"></i> Check my projects</a></p>
         </div>
     </section>
 
-    <section id="about" class="about">
+    <section id="about" class="about-me">
+      {% if portfolio.me_picture %}  
         <img src="{% if portfolio.me_picture %}{{ portfolio.me_picture.url }}{% else %}{% static 'me_pictures/me.jpeg' %}{% endif %}" alt="{{ portfolio.name }}">
+      {% endif %}
         <div>
-            <h2>About Me</h2>
-            <p>I am {{ portfolio.name }} a {{ portfolio.role }} {{ portfolio.personal_quotes }}</p>
+            <h1>About Me</h1>
+            <h2>Hi there, I’m <span>{{ portfolio.name }}</span></h2>
+            <h3>{{ portfolio.role }}</h3>
+            <p>{{ portfolio.about_me }}</p>
             {% if portfolio.cv_pdf %}
-                <a href="{{ portfolio.cv_pdf.url }}" download><button>Download CV</button></a>
-            {% else %}
-                <button disabled>No CV Available</button>
+                <a href="{{ portfolio.cv_pdf.url }}" target=”_blank” download><button><i class="fa-solid fa-download"></i> Download CV</button></a>
+            {% endif %}
+            {% if portfolio.linkedin_link %}
+                <a href="{{ portfolio.linkedin_link }}" target=”_blank”><button> LIKEDIN<i class="fa-brands fa-linkedin"></i></button></a>
             {% endif %}
         </div>
     </section>
 
     <section id="expertise" class="expertise">
-        <h2>Expertises</h2>
+        <h2>MY EXPERTISEs</h2>
         <div class="cards">
             {% for skill in portfolio.skills_set.all %}
             <div class="card">
